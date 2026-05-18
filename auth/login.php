@@ -1,6 +1,6 @@
 <?php
 // auth/login.php
-// Redesigned beautiful login + register page with modern UI/UX
+// Redesigned beautiful login + register page with food donation image
 
 session_start();
 
@@ -139,33 +139,56 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             box-shadow: 0 40px 60px -20px rgba(0, 0, 0, 0.3);
         }
 
-        /* left side : brand story */
+        /* left side : brand story with image */
         .brand-side {
-            background: linear-gradient(135deg, #0f2b1d 0%, #14532d 100%);
-            padding: 2.8rem 2.2rem;
+            background: linear-gradient(135deg, #0a2b1a 0%, #0f3d23 100%);
+            padding: 2rem;
             height: 100%;
             position: relative;
             color: white;
             border-radius: 0 2rem 2rem 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .food-image-container {
+            width: 100%;
+            border-radius: 1.5rem;
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .food-image-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .food-image-container img:hover {
+            transform: scale(1.02);
         }
 
         .brand-logo {
-            font-size: 2.2rem;
+            font-size: 2rem;
             font-weight: 800;
             letter-spacing: -0.02em;
             background: linear-gradient(120deg, #f0fdf4, #bbf7d0);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            margin-bottom: 1.5rem;
+            margin-bottom: 0.75rem;
             display: inline-block;
         }
 
-        .brand-side h2 {
+        .brand-side h3 {
             font-weight: 700;
-            font-size: 1.9rem;
+            font-size: 1.5rem;
             line-height: 1.3;
-            margin: 0.5rem 0 1rem 0;
+            margin: 0.5rem 0 0.5rem 0;
         }
 
         .highlight-green {
@@ -174,47 +197,54 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             display: inline-block;
         }
 
+        .brand-description {
+            opacity: 0.85;
+            line-height: 1.5;
+            margin: 0.5rem 0 1rem 0;
+            font-size: 0.9rem;
+        }
+
         .trust-features {
-            margin-top: 2rem;
+            margin-top: 1rem;
             display: flex;
             flex-direction: column;
-            gap: 1.2rem;
+            gap: 0.8rem;
         }
 
         .feature-chip {
             display: flex;
             align-items: center;
-            gap: 1rem;
+            gap: 0.8rem;
             background: rgba(255, 255, 255, 0.12);
             backdrop-filter: blur(4px);
-            padding: 0.8rem 1.2rem;
-            border-radius: 1.5rem;
+            padding: 0.6rem 1rem;
+            border-radius: 1.2rem;
             transition: all 0.2s;
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         .feature-chip i {
-            font-size: 1.6rem;
-            width: 2rem;
+            font-size: 1.3rem;
+            width: 1.8rem;
             color: #bef264;
         }
 
         .feature-chip span {
             font-weight: 500;
-            font-size: 0.95rem;
+            font-size: 0.85rem;
         }
 
         .impact-text {
-            margin-top: 2rem;
-            font-size: 0.85rem;
+            margin-top: 1.5rem;
+            font-size: 0.75rem;
             opacity: 0.85;
             border-top: 1px solid rgba(255, 255, 255, 0.2);
-            padding-top: 1.5rem;
+            padding-top: 1rem;
         }
 
         /* right side */
         .form-side {
-            padding: 2.2rem 2rem;
+            padding: 2rem 2rem;
             background: white;
         }
 
@@ -225,7 +255,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             background: #f1f5f9;
             padding: 0.4rem;
             border-radius: 3rem;
-            margin-bottom: 2rem;
+            margin-bottom: 1.8rem;
         }
 
         .tab-item {
@@ -238,7 +268,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             border: none;
             cursor: pointer;
             transition: all 0.2s;
-            font-size: 1rem;
+            font-size: 0.95rem;
             color: #334155;
         }
 
@@ -277,7 +307,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         .input-group-icon {
             position: relative;
-            margin-bottom: 1.4rem;
+            margin-bottom: 1.2rem;
         }
 
         .input-group-icon i {
@@ -286,16 +316,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             top: 50%;
             transform: translateY(-50%);
             color: #94a3b8;
-            font-size: 1.1rem;
+            font-size: 1rem;
             pointer-events: none;
         }
 
         .input-group-icon input {
             width: 100%;
-            padding: 0.9rem 1rem 0.9rem 2.8rem;
+            padding: 0.85rem 1rem 0.85rem 2.8rem;
             border: 1.5px solid #e2e8f0;
             border-radius: 1.2rem;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             font-family: 'Inter', sans-serif;
             background: #fefefe;
             transition: all 0.2s;
@@ -323,11 +353,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         .btn-primary-glow {
             background: linear-gradient(95deg, #15803d, #22c55e);
             border: none;
-            padding: 0.9rem;
+            padding: 0.85rem;
             width: 100%;
             border-radius: 1.5rem;
             font-weight: 700;
-            font-size: 1rem;
+            font-size: 0.95rem;
             color: white;
             display: flex;
             align-items: center;
@@ -347,8 +377,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         .switch-action {
             text-align: center;
-            margin-top: 1.6rem;
-            font-size: 0.85rem;
+            margin-top: 1.4rem;
+            font-size: 0.8rem;
         }
 
         .switch-action a {
@@ -362,20 +392,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             font-size: 0.7rem;
             text-align: center;
             color: #6c757d;
-            margin-top: 1.8rem;
+            margin-top: 1.5rem;
             border-top: 1px solid #eef2ff;
-            padding-top: 1.2rem;
+            padding-top: 1rem;
         }
 
         /* custom alert */
         .custom-alert {
-            padding: 0.8rem 1.2rem;
-            border-radius: 1.2rem;
-            margin-bottom: 1.6rem;
+            padding: 0.7rem 1rem;
+            border-radius: 1rem;
+            margin-bottom: 1.4rem;
             display: flex;
             align-items: center;
             gap: 10px;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             font-weight: 500;
             backdrop-filter: blur(4px);
         }
@@ -414,12 +444,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         @media (max-width: 640px) {
-            .brand-side h2 {
-                font-size: 1.4rem;
+            .brand-side h3 {
+                font-size: 1.3rem;
             }
 
             .feature-chip {
-                padding: 0.6rem 1rem;
+                padding: 0.5rem 0.8rem;
+            }
+
+            .feature-chip i {
+                font-size: 1.1rem;
             }
         }
     </style>
@@ -429,14 +463,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="auth-wrapper">
         <div class="glass-card">
             <div class="row" style="display: flex; flex-wrap: wrap;">
-                <!-- left brand area -->
+                <!-- left brand area with food donation image -->
                 <div class="col-brand" style="flex: 1.2; min-width: 260px;">
                     <div class="brand-side">
+                        <!-- Food Donation Image -->
+                        <div class="food-image-container">
+                            <img src="food_donation.jpg" alt="Food donation - Sharing meals with hope" onerror="this.onerror=null; this.src='https://placehold.co/600x400/e2f0e2/2d6a4f?text=Food+Donation';">
+                        </div>
+
                         <div class="brand-logo">
                             <i class="fas fa-hand-holding-heart"></i> Say<span style="color:#bef264;">og</span>
                         </div>
-                        <h2>Donate food.<br>Change <span class="highlight-green">lives</span>.</h2>
-                        <p style="opacity: 0.85; line-height: 1.5; margin: 1rem 0 0 0;">Join a community where every meal shared brings hope.</p>
+                        <h3>Donate food.<br>Change <span class="highlight-green">lives</span>.</h3>
+                        <p class="brand-description">
+                            Join a community where every meal shared brings hope to those in need.
+                        </p>
 
                         <div class="trust-features">
                             <div class="feature-chip">
@@ -620,8 +661,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             confirmPass.addEventListener('input', updateMatchHint);
         }
 
-        // preserve active tab on page reload if there was a form error? (already using PHP activeForm)
-        // also automatically show any validation on register: additional frontend password match before submit?
+        // frontend password match before register submit
         const registerFormElem = document.querySelector('#registerForm form');
         if (registerFormElem) {
             registerFormElem.addEventListener('submit', function(e) {
@@ -632,7 +672,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     alert('❌ Passwords do not match. Please check before registering.');
                     return false;
                 }
-                // you may also add additional name/email check but backend already does
                 return true;
             });
         }
