@@ -287,7 +287,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 <div class="feature-icon">📍</div>
                                 <div>
                                     <b>Smart Matching</b>
-                                    <small>Location-based requests later.</small>
+                                    <small>Location-based request later.</small>
                                 </div>
                             </div>
                             <div class="feature-item">
