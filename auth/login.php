@@ -1,11 +1,12 @@
 <?php
 // auth/login.php
-// Fully responsive login + register page - Mobile first design
+// Fully responsive login + register page with Role Selection (Donor, Consumer, Admin)
 
 session_start();
 
 $message = '';
 $messageType = 'info';
+$activeForm = 'loginForm'; // Default to login form
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $action = $_POST['action'] ?? '';
@@ -13,14 +14,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($action === 'login') {
         $email = trim((string)($_POST['email'] ?? ''));
         $password = (string)($_POST['password'] ?? '');
+        $role = $_POST['role'] ?? '';
 
-        if ($email === '' || $password === '') {
-            $message = 'Please enter both email and password.';
+        if ($email === '' || $password === '' || $role === '') {
+            $message = 'Please enter email, password and select role.';
             $messageType = 'danger';
         } else {
-            $message = 'Login submitted (layout only – no authentication yet).';
+            $message = 'Login submitted as ' . htmlspecialchars($role) . ' (layout only – no authentication yet).';
             $messageType = 'success';
         }
+        $activeForm = 'loginForm';
     }
 
     if ($action === 'register') {
@@ -28,24 +31,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $email = trim((string)($_POST['email'] ?? ''));
         $password = (string)($_POST['password'] ?? '');
         $confirm = (string)($_POST['confirm_password'] ?? '');
+        $role = $_POST['role'] ?? '';
 
-        if ($name === '' || $email === '' || $password === '' || $confirm === '') {
-            $message = 'Please fill all register fields.';
+        if ($name === '' || $email === '' || $password === '' || $confirm === '' || $role === '') {
+            $message = 'Please fill all register fields including role selection.';
             $messageType = 'danger';
+            $activeForm = 'registerForm';
         } elseif ($password !== $confirm) {
             $message = 'Password and confirm password do not match.';
             $messageType = 'danger';
+            $activeForm = 'registerForm';
         } else {
-            $message = 'Register submitted (layout only – no database yet).';
+            $message = 'Registration successful! Please login with your credentials.';
             $messageType = 'success';
+            // After successful registration, switch to login form
+            $activeForm = 'loginForm';
         }
     }
-}
-
-// Decide which tab should be active after POST.
-$activeForm = 'loginForm';
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $activeForm = ($_POST['action'] ?? '') === 'register' ? 'registerForm' : 'loginForm';
 }
 
 ?>
@@ -55,7 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
-    <title>Sayog | Join the Food Donation Community</title>
+    <title>Sayog | Join the Food Donation Community - Donor, Consumer, Admin</title>
 
     <!-- Google Fonts + Font Awesome -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
@@ -77,7 +79,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             overflow-x: hidden;
         }
 
-        /* animated background blobs - optimized for performance */
+        /* animated background blobs */
         body::before {
             content: '';
             position: fixed;
@@ -142,7 +144,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
         }
 
-        /* left side : brand story with image - mobile optimized */
+        /* left side : brand story with image */
         .brand-side {
             background: linear-gradient(135deg, #0a2b1a 0%, #0f3d23 100%);
             padding: 1.5rem;
@@ -288,7 +290,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
         }
 
-        /* modern tabs - mobile friendly */
+        /* modern tabs */
         .modern-tabs {
             display: flex;
             gap: 0.5rem;
@@ -349,6 +351,101 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             to {
                 opacity: 1;
                 transform: translateY(0);
+            }
+        }
+
+        /* Role Selector */
+        .role-selector {
+            margin-bottom: 1rem;
+        }
+
+        .role-label {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #334155;
+            margin-bottom: 0.5rem;
+        }
+
+        .role-options {
+            display: flex;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+        }
+
+        .role-option {
+            flex: 1;
+            min-width: 100px;
+            position: relative;
+        }
+
+        .role-option input[type="radio"] {
+            position: absolute;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+            z-index: 2;
+        }
+
+        .role-card {
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 1rem;
+            padding: 0.8rem 0.5rem;
+            text-align: center;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .role-option input[type="radio"]:checked+.role-card {
+            background: linear-gradient(135deg, #e8f5e9, #c8e6d9);
+            border-color: #16a34a;
+            box-shadow: 0 4px 12px rgba(22, 163, 74, 0.2);
+        }
+
+        .role-option input[type="radio"]:checked+.role-card i {
+            color: #16a34a;
+        }
+
+        .role-card i {
+            font-size: 1.5rem;
+            color: #64748b;
+            margin-bottom: 0.3rem;
+            display: block;
+        }
+
+        .role-card .role-name {
+            font-weight: 700;
+            font-size: 0.8rem;
+            color: #1e293b;
+        }
+
+        .role-card .role-desc {
+            font-size: 0.65rem;
+            color: #64748b;
+            margin-top: 0.2rem;
+        }
+
+        @media (max-width: 480px) {
+            .role-options {
+                gap: 0.5rem;
+            }
+
+            .role-card {
+                padding: 0.6rem 0.3rem;
+            }
+
+            .role-card i {
+                font-size: 1.2rem;
+            }
+
+            .role-card .role-name {
+                font-size: 0.7rem;
+            }
+
+            .role-card .role-desc {
+                font-size: 0.55rem;
             }
         }
 
@@ -551,23 +648,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
         }
 
-        /* Prevent overflow on very small devices */
-        @media (max-width: 360px) {
-            .input-wrapper input {
-                font-size: 0.8rem;
-                padding: 0.7rem 2.8rem 0.7rem 2.3rem;
-            }
-
-            .tab-item {
-                font-size: 0.75rem;
-            }
-
-            .tab-item i {
-                margin-right: 4px;
-            }
-        }
-
-        /* Smooth scrolling */
         html {
             scroll-behavior: smooth;
         }
@@ -578,12 +658,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="auth-wrapper">
         <div class="glass-card">
             <div class="row">
-                <!-- left brand area with food donation image -->
+                <!-- left brand area -->
                 <div class="col-brand">
                     <div class="brand-side">
-                        <!-- Food Donation Image -->
                         <div class="food-image-container">
-                            <img src="../assets/images/food_donation.jpg" alt="Food donation - Sharing meals with hope" onerror="this.onerror=null; this.src='https://placehold.co/600x400/e2f0e2/2d6a4f?text=Food+Donation';">
+                            <img src="https://images.unsplash.com/photo-1488459716781-31db52582fe9?q=80&w=600&auto=format" alt="Food donation" onerror="this.onerror=null; this.src='https://placehold.co/600x400/e2f0e2/2d6a4f?text=Food+Donation';">
                         </div>
 
                         <div class="brand-logo">
@@ -640,7 +719,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             </button>
                         </div>
 
-                        <!-- LOGIN FORM -->
+                        <!-- LOGIN FORM (Email + Password + Role only) -->
                         <div class="auth-panel <?php echo $activeForm === 'loginForm' ? 'active' : ''; ?>" id="loginForm">
                             <form method="POST" action="">
                                 <input type="hidden" name="action" value="login">
@@ -658,16 +737,47 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                     </button>
                                 </div>
 
+                                <!-- Role Selector for Login -->
+                                <div class="role-selector">
+                                    <label class="role-label"><i class="fas fa-user-tag"></i> Login as</label>
+                                    <div class="role-options">
+                                        <label class="role-option">
+                                            <input type="radio" name="role" value="donor" required>
+                                            <div class="role-card">
+                                                <i class="fas fa-hand-holding-heart"></i>
+                                                <div class="role-name">Donor</div>
+                                                <div class="role-desc">Restaurant/Hotel/Individual</div>
+                                            </div>
+                                        </label>
+                                        <label class="role-option">
+                                            <input type="radio" name="role" value="consumer">
+                                            <div class="role-card">
+                                                <i class="fas fa-utensils"></i>
+                                                <div class="role-name">Consumer</div>
+                                                <div class="role-desc">NGO/Community/Individual</div>
+                                            </div>
+                                        </label>
+                                        <label class="role-option">
+                                            <input type="radio" name="role" value="admin">
+                                            <div class="role-card">
+                                                <i class="fas fa-user-shield"></i>
+                                                <div class="role-name">Admin</div>
+                                                <div class="role-desc">Platform Manager</div>
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+
                                 <button type="submit" class="btn-primary-glow">
                                     <i class="fas fa-paper-plane"></i> Sign in
                                 </button>
                                 <div class="switch-action">
-                                    <a href="#" onclick="switchTab('registerForm'); return false;">✨ Create an account</a>
+                                    <a href="#" onclick="switchTab('registerForm'); return false;">✨ Don't have an account? Register</a>
                                 </div>
                             </form>
                         </div>
 
-                        <!-- REGISTER FORM -->
+                        <!-- REGISTER FORM (Full Name, Email, Password, Confirm Password, Role) -->
                         <div class="auth-panel <?php echo $activeForm === 'registerForm' ? 'active' : ''; ?>" id="registerForm">
                             <form method="POST" action="">
                                 <input type="hidden" name="action" value="register">
@@ -700,11 +810,42 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                                 <div id="passMatchHint" style="font-size: 0.7rem; margin-top: -0.5rem; margin-bottom: 0.5rem; padding-left: 0.5rem;"></div>
 
+                                <!-- Role Selector for Registration -->
+                                <div class="role-selector">
+                                    <label class="role-label"><i class="fas fa-user-tag"></i> Register as</label>
+                                    <div class="role-options">
+                                        <label class="role-option">
+                                            <input type="radio" name="role" value="donor" required>
+                                            <div class="role-card">
+                                                <i class="fas fa-hand-holding-heart"></i>
+                                                <div class="role-name">Donor</div>
+                                                <div class="role-desc">Restaurant/Hotel/Individual</div>
+                                            </div>
+                                        </label>
+                                        <label class="role-option">
+                                            <input type="radio" name="role" value="consumer">
+                                            <div class="role-card">
+                                                <i class="fas fa-utensils"></i>
+                                                <div class="role-name">Consumer</div>
+                                                <div class="role-desc">NGO/Community/Individual</div>
+                                            </div>
+                                        </label>
+                                        <label class="role-option">
+                                            <input type="radio" name="role" value="admin">
+                                            <div class="role-card">
+                                                <i class="fas fa-user-shield"></i>
+                                                <div class="role-name">Admin</div>
+                                                <div class="role-desc">Platform Manager</div>
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+
                                 <button type="submit" class="btn-primary-glow">
-                                    <i class="fas fa-hand-peace"></i> Join Sayog
+                                    <i class="fas fa-hand-peace"></i> Register
                                 </button>
                                 <div class="switch-action">
-                                    <a href="#" onclick="switchTab('loginForm'); return false;">🔐 Already have an account?</a>
+                                    <a href="#" onclick="switchTab('loginForm'); return false;">🔐 Already have an account? Login</a>
                                 </div>
                             </form>
                         </div>
@@ -739,7 +880,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             });
         });
 
-        // improved password toggle function
+        // password toggle function
         function togglePassword(fieldId, buttonElement) {
             const field = document.getElementById(fieldId);
             if (!field) return;
@@ -794,21 +935,43 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     alert('❌ Passwords do not match. Please check before registering.');
                     return false;
                 }
+
+                const roleSelected = document.querySelector('#registerForm input[name="role"]:checked');
+                if (!roleSelected) {
+                    e.preventDefault();
+                    alert('❌ Please select a role (Donor, Consumer, or Admin) to register.');
+                    return false;
+                }
                 return true;
             });
         }
 
-        // Touch optimization for mobile
-        document.querySelectorAll('.password-toggle, .tab-item, .btn-primary-glow').forEach(el => {
-            el.addEventListener('touchstart', function(e) {
-                // Just for better touch feedback
-                this.style.opacity = '0.7';
-                setTimeout(() => {
-                    this.style.opacity = '';
-                }, 150);
+        // Login form role check
+        const loginFormElem = document.querySelector('#loginForm form');
+        if (loginFormElem) {
+            loginFormElem.addEventListener('submit', function(e) {
+                const roleSelected = document.querySelector('#loginForm input[name="role"]:checked');
+                if (!roleSelected) {
+                    e.preventDefault();
+                    alert('❌ Please select a role (Donor, Consumer, or Admin) to login.');
+                    return false;
+                }
+                return true;
             });
+        }
+
+        // Make role cards clickable
+        document.querySelectorAll('.role-option').forEach(option => {
+            const radio = option.querySelector('input[type="radio"]');
+            const card = option.querySelector('.role-card');
+            if (card) {
+                card.addEventListener('click', () => {
+                    radio.checked = true;
+                });
+            }
         });
     </script>
 </body>
 
 </html>
+```
