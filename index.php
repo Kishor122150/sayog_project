@@ -1,5 +1,5 @@
 <?php
-// index.php
+// index.php - Home Page
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -7,16 +7,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sayog - Food Donation & Redistribution Platform</title>
+    <title>Sayog - Home | Food Donation & Redistribution Platform</title>
 
     <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
     <style>
         * {
@@ -33,13 +29,11 @@
 
         :root {
             --primary: #16a34a;
-            --secondary: #14532d;
+            --primary-dark: #14532d;
             --light: #f0fdf4;
             --dark: #111827;
             --gray: #6b7280;
         }
-
-        /* Navbar */
 
         .navbar {
             background: #ffffff;
@@ -64,8 +58,27 @@
             transition: 0.3s;
         }
 
-        .nav-link:hover {
+        .nav-link:hover,
+        .nav-link.active {
             color: var(--primary) !important;
+        }
+
+        /* Donate Now button in navbar */
+        .btn-donate-nav {
+            background: linear-gradient(135deg, #16a34a, #14532d);
+            color: white !important;
+            padding: 8px 22px;
+            border-radius: 40px;
+            font-weight: 600;
+            margin-left: 15px;
+            transition: 0.3s;
+            border: none;
+        }
+
+        .btn-donate-nav:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(22, 163, 74, 0.4);
+            color: white !important;
         }
 
         .btn-main {
@@ -79,12 +92,9 @@
         }
 
         .btn-main:hover {
-            background: var(--secondary);
-            color: #fff;
+            background: var(--primary-dark);
             transform: translateY(-2px);
         }
-
-        /* Hero Section */
 
         .hero {
             min-height: 90vh;
@@ -109,10 +119,6 @@
             color: #e5e7eb;
         }
 
-        .hero-btns {
-            margin-top: 30px;
-        }
-
         .btn-light-custom {
             background: white;
             color: var(--primary);
@@ -122,11 +128,12 @@
             text-decoration: none;
             margin-right: 10px;
             transition: 0.3s;
+            display: inline-block;
         }
 
         .btn-light-custom:hover {
             background: #dcfce7;
-            color: var(--secondary);
+            color: var(--primary-dark);
         }
 
         .btn-outline-custom {
@@ -137,14 +144,13 @@
             text-decoration: none;
             font-weight: 600;
             transition: 0.3s;
+            display: inline-block;
         }
 
         .btn-outline-custom:hover {
             background: white;
             color: var(--primary);
         }
-
-        /* Section */
 
         .section-title {
             text-align: center;
@@ -165,8 +171,6 @@
         section {
             padding: 100px 0;
         }
-
-        /* Features */
 
         .feature-card {
             background: white;
@@ -193,17 +197,6 @@
             font-size: 30px;
             margin-bottom: 25px;
         }
-
-        .feature-card h4 {
-            font-weight: 600;
-            margin-bottom: 15px;
-        }
-
-        .feature-card p {
-            color: var(--gray);
-        }
-
-        /* Donation Cards */
 
         .donation-card {
             background: white;
@@ -236,8 +229,6 @@
             font-weight: 600;
         }
 
-        /* Stats */
-
         .stats {
             background: var(--primary);
             color: white;
@@ -257,8 +248,6 @@
             color: #dcfce7;
         }
 
-        /* CTA */
-
         .cta {
             background: linear-gradient(to right, #16a34a, #14532d);
             color: white;
@@ -266,18 +255,6 @@
             padding: 70px;
             text-align: center;
         }
-
-        .cta h2 {
-            font-size: 42px;
-            font-weight: 700;
-        }
-
-        .cta p {
-            margin-top: 15px;
-            color: #e5e7eb;
-        }
-
-        /* Footer */
 
         footer {
             background: #111827;
@@ -330,7 +307,6 @@
         }
 
         @media(max-width:991px) {
-
             .hero {
                 text-align: center;
                 padding: 100px 0;
@@ -348,500 +324,240 @@
                 font-size: 30px;
             }
 
+            .btn-donate-nav {
+                margin: 10px 0;
+                display: inline-block;
+                text-align: center;
+            }
         }
     </style>
 </head>
 
 <body>
 
-    <!-- Navbar -->
-
+    <!-- Navbar with Donate Now Button -->
     <nav class="navbar navbar-expand-lg sticky-top">
         <div class="container">
-
-            <a class="navbar-brand" href="#home">
-                Say<span>og</span>
-            </a>
-
+            <a class="navbar-brand" href="index.php">Say<span>og</span></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
                 <span class="navbar-toggler-icon"></span>
             </button>
-
             <div class="collapse navbar-collapse" id="navMenu">
-
                 <ul class="navbar-nav ms-auto align-items-lg-center">
-
+                    <li class="nav-item"><a class="nav-link active" href="index.php">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="about.php">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="services.php">Services</a></li>
+                    <li class="nav-item"><a class="nav-link" href="ngos.php">NGOs</a></li>
+                    <li class="nav-item"><a class="nav-link" href="stories.php">Stories</a></li>
+                    <li class="nav-item"><a class="nav-link" href="nearby.php">Nearby</a></li>
+                    <li class="nav-item"><a class="nav-link" href="contact.php">Contact</a></li>
+                    <li class="nav-item"><a class="nav-link" href="faq.php">FAQs</a></li>
+                    <!-- DONATE NOW BUTTON IN NAVBAR -->
                     <li class="nav-item">
-                        <a class="nav-link" href="#home">Home</a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="#about">About</a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="#donations">Donations</a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="#ngos">NGOs</a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="#contact">Contact</a>
-                    </li>
-
-                    <li class="nav-item ms-lg-3">
-                        <a href="#donations" class="btn btn-main">
-                            Donate Now
+                        <a class="btn-donate-nav" href="login-register.php">
+                            <i class="bi bi-heart-fill"></i> Donate Now
                         </a>
                     </li>
-
                 </ul>
-
             </div>
-
         </div>
     </nav>
 
     <!-- Hero Section -->
-
     <section class="hero" id="home">
-
         <div class="container">
-
             <div class="row align-items-center">
-
                 <div class="col-lg-7">
-
-                    <h1>
-                        Reduce Food Waste <br>
-                        Help Needy People
-                    </h1>
-
-                    <p>
-                        Sayog is a smart food donation and redistribution platform
-                        connecting restaurants, hotels, NGOs, and individuals with
-                        people who truly need support.
-                    </p>
-
+                    <h1>Reduce Food Waste <br> Help Needy People</h1>
+                    <p>Sayog is a smart food donation and redistribution platform connecting restaurants, hotels, NGOs, and individuals with people who truly need support.</p>
                     <div class="hero-btns">
-
-                        <a href="#donations" class="btn-light-custom">
-                            Start Donating
-                        </a>
-
-                        <a href="#about" class="btn-outline-custom">
-                            Explore More
-                        </a>
-
+                        <a href="login-register.php" class="btn-light-custom">Start Donating</a>
+                        <a href="how-it-works.php" class="btn-outline-custom">Explore More</a>
                     </div>
-
+                    <div class="mt-5 d-flex gap-4">
+                        <div><strong class="fs-2">5000+</strong><br><span>Meals Saved</span></div>
+                        <div><strong class="fs-2">200+</strong><br><span>NGO Partners</span></div>
+                        <div><strong class="fs-2">10000+</strong><br><span>Lives Impacted</span></div>
+                    </div>
                 </div>
-
             </div>
-
         </div>
-
     </section>
 
-    <!-- Features -->
-
+    <!-- Features / About Section -->
     <section id="about">
-
         <div class="container">
-
             <div class="section-title">
-
                 <h2>Why Choose Sayog?</h2>
-
-                <p>
-                    Smart technology for impactful food donation and redistribution.
-                </p>
-
+                <p>Smart technology for impactful food donation and redistribution.</p>
             </div>
-
             <div class="row g-4">
-
                 <div class="col-lg-4">
-
                     <div class="feature-card">
-
-                        <div class="feature-icon">
-                            <i class="bi bi-geo-alt"></i>
-                        </div>
-
+                        <div class="feature-icon"><i class="bi bi-geo-alt"></i></div>
                         <h4>Location Based Matching</h4>
-
-                        <p>
-                            Find nearby NGO and consumers instantly using GPS and Google Maps integration.
-                        </p>
-
+                        <p>Find nearby NGO and consumers instantly using GPS and Google Maps integration.</p>
                     </div>
-
                 </div>
-
                 <div class="col-lg-4">
-
                     <div class="feature-card">
-
-                        <div class="feature-icon">
-                            <i class="bi bi-bell"></i>
-                        </div>
-
+                        <div class="feature-icon"><i class="bi bi-bell"></i></div>
                         <h4>Real-Time Notifications</h4>
-
-                        <p>
-                            Receive instant donation alerts, request updates, and delivery tracking notifications.
-                        </p>
-
+                        <p>Receive instant donation alerts, request updates, and delivery tracking notifications.</p>
                     </div>
-
                 </div>
-
                 <div class="col-lg-4">
-
                     <div class="feature-card">
-
-                        <div class="feature-icon">
-                            <i class="bi bi-shield-check"></i>
-                        </div>
-
+                        <div class="feature-icon"><i class="bi bi-shield-check"></i></div>
                         <h4>Secure Verification</h4>
-
-                        <p>
-                            OTP verification, admin approval, and secure authentication ensure platform trust.
-                        </p>
-
+                        <p>OTP verification, admin approval, and secure authentication ensure platform trust.</p>
                     </div>
-
                 </div>
-
             </div>
-
         </div>
-
     </section>
 
-    <!-- Donation Section -->
-
+    <!-- Recent Donations Section -->
     <section class="bg-light" id="donations">
-
         <div class="container">
-
             <div class="section-title">
-
                 <h2>Recent Donations</h2>
-
-                <p>
-                    Explore latest food donations available nearby.
-                </p>
-
+                <p>Explore latest food donations available nearby.</p>
             </div>
-
             <div class="row g-4">
-
                 <div class="col-lg-4">
-
                     <div class="donation-card">
-
-                        <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=1200&auto=format&fit=crop">
-
+                        <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=500&auto=format">
                         <div class="donation-content">
-
-                            <span class="badge-custom">
-                                Food Donation
-                            </span>
-
-                            <h4 class="mt-3">
-                                Fresh Meal Package
-                            </h4>
-
-                            <p class="text-muted">
-                                Donated by Hotel Everest • Kathmandu
-                            </p>
-
+                            <span class="badge-custom">Food Donation</span>
+                            <h4 class="mt-3">Fresh Meal Package</h4>
+                            <p class="text-muted">Donated by Hotel Everest • Kathmandu</p>
                             <div class="d-flex justify-content-between align-items-center mt-4">
-
-                                <span>
-                                    <i class="bi bi-geo-alt-fill text-success"></i>
-                                    2 KM Away
-                                </span>
-
-                                <a href="#" class="btn btn-main btn-sm">
-                                    Request
-                                </a>
-
+                                <span><i class="bi bi-geo-alt-fill text-success"></i> 2 KM Away</span>
+                                <a href="login-register.php" class="btn btn-main btn-sm">Request</a>
                             </div>
-
                         </div>
-
                     </div>
-
                 </div>
-
                 <div class="col-lg-4">
-
                     <div class="donation-card">
-
-                        <img src="https://images.unsplash.com/photo-1547592180-85f173990554?q=80&w=1200&auto=format&fit=crop">
-
+                        <img src="https://images.unsplash.com/photo-1547592180-85f173990554?q=80&w=500&auto=format">
                         <div class="donation-content">
-
-                            <span class="badge-custom">
-                                NGO Support
-                            </span>
-
-                            <h4 class="mt-3">
-                                Rice & Vegetables
-                            </h4>
-
-                            <p class="text-muted">
-                                Donated by FoodCare NGO
-                            </p>
-
+                            <span class="badge-custom">NGO Support</span>
+                            <h4 class="mt-3">Rice & Vegetables</h4>
+                            <p class="text-muted">Donated by FoodCare NGO</p>
                             <div class="d-flex justify-content-between align-items-center mt-4">
-
-                                <span>
-                                    <i class="bi bi-geo-alt-fill text-success"></i>
-                                    5 KM Away
-                                </span>
-
-                                <a href="#" class="btn btn-main btn-sm">
-                                    Request
-                                </a>
-
+                                <span><i class="bi bi-geo-alt-fill text-success"></i> 5 KM Away</span>
+                                <a href="login-register.php" class="btn btn-main btn-sm">Request</a>
                             </div>
-
                         </div>
-
                     </div>
-
                 </div>
-
                 <div class="col-lg-4">
-
                     <div class="donation-card">
-
-                        <img src="https://images.unsplash.com/photo-1511690743698-d9d85f2fbf38?q=80&w=1200&auto=format&fit=crop">
-
+                        <img src="https://images.unsplash.com/photo-1511690743698-d9d85f2fbf38?q=80&w=500&auto=format">
                         <div class="donation-content">
-
-                            <span class="badge-custom">
-                                Restaurant Donation
-                            </span>
-
-                            <h4 class="mt-3">
-                                Packed Healthy Food
-                            </h4>
-
-                            <p class="text-muted">
-                                Donated by Green Cafe
-                            </p>
-
+                            <span class="badge-custom">Restaurant Donation</span>
+                            <h4 class="mt-3">Packed Healthy Food</h4>
+                            <p class="text-muted">Donated by Green Cafe</p>
                             <div class="d-flex justify-content-between align-items-center mt-4">
-
-                                <span>
-                                    <i class="bi bi-geo-alt-fill text-success"></i>
-                                    3 KM Away
-                                </span>
-
-                                <a href="#" class="btn btn-main btn-sm">
-                                    Request
-                                </a>
-
+                                <span><i class="bi bi-geo-alt-fill text-success"></i> 3 KM Away</span>
+                                <a href="login-register.php" class="btn btn-main btn-sm">Request</a>
                             </div>
-
                         </div>
-
                     </div>
-
                 </div>
-
             </div>
-
         </div>
-
     </section>
 
-    <!-- Stats -->
-
+    <!-- Stats Section -->
     <section class="stats" id="ngos">
-
         <div class="container">
-
             <div class="row">
-
                 <div class="col-lg-3 col-md-6 mb-4">
-
                     <div class="stat-box">
                         <h2>5K+</h2>
                         <p>Food Donations</p>
                     </div>
-
                 </div>
-
                 <div class="col-lg-3 col-md-6 mb-4">
-
                     <div class="stat-box">
                         <h2>2K+</h2>
                         <p>Families Helped</p>
                     </div>
-
                 </div>
-
                 <div class="col-lg-3 col-md-6 mb-4">
-
                     <div class="stat-box">
                         <h2>150+</h2>
                         <p>NGO Partners</p>
                     </div>
-
                 </div>
-
                 <div class="col-lg-3 col-md-6 mb-4">
-
                     <div class="stat-box">
                         <h2>100%</h2>
                         <p>Verified Donations</p>
                     </div>
-
                 </div>
-
             </div>
-
         </div>
-
     </section>
 
-    <!-- CTA -->
-
+    <!-- CTA Section -->
     <section id="contact">
-
         <div class="container">
-
             <div class="cta">
-
-                <h2>
-                    Join The Movement Against Food Waste
-                </h2>
-
-                <p>
-                    Together we can reduce hunger and create a better future.
-                </p>
-
-                <a href="#contact" class="btn-light-custom mt-4 d-inline-block">
-                    Become a Donor
-                </a>
-
+                <h2>Join The Movement Against Food Waste</h2>
+                <p>Together we can reduce hunger and create a better future.</p>
+                <a href="login-register.php" class="btn-light-custom mt-4 d-inline-block">Become a Donor</a>
             </div>
-
         </div>
-
     </section>
 
     <!-- Footer -->
-
     <footer>
-
         <div class="container">
-
             <div class="row">
-
                 <div class="col-lg-4 mb-4">
-
-                    <div class="footer-title">
-                        Sayog
-                    </div>
-
-                    <p class="text-light">
-                        Smart food donation and redistribution platform connecting kindness with need.
-                    </p>
-
+                    <div class="footer-title">Sayog</div>
+                    <p class="text-light">Smart food donation and redistribution platform connecting kindness with need.</p>
                     <div class="social-icons mt-4">
-
-                        <a href="#">
-                            <i class="bi bi-facebook"></i>
-                        </a>
-
-                        <a href="#">
-                            <i class="bi bi-instagram"></i>
-                        </a>
-
-                        <a href="#">
-                            <i class="bi bi-twitter-x"></i>
-                        </a>
-
-                        <a href="#">
-                            <i class="bi bi-linkedin"></i>
-                        </a>
-
+                        <a href="#"><i class="bi bi-facebook"></i></a>
+                        <a href="#"><i class="bi bi-instagram"></i></a>
+                        <a href="#"><i class="bi bi-twitter-x"></i></a>
+                        <a href="#"><i class="bi bi-linkedin"></i></a>
                     </div>
-
                 </div>
-
                 <div class="col-lg-2 col-md-6 mb-4">
-
-                    <div class="footer-title">
-                        Links
-                    </div>
-
+                    <div class="footer-title">Quick Links</div>
                     <div class="footer-links">
-
-                        <a href="#">Home</a>
-                        <a href="#">About</a>
-                        <a href="#">Donations</a>
-                        <a href="#">NGOs</a>
-
+                        <a href="index.php">Home</a>
+                        <a href="about.php">About</a>
+                        <a href="services.php">Services</a>
+                        <a href="contact.php">Contact</a>
                     </div>
-
                 </div>
-
                 <div class="col-lg-3 col-md-6 mb-4">
-
-                    <div class="footer-title">
-                        Services
-                    </div>
-
+                    <div class="footer-title">Services</div>
                     <div class="footer-links">
-
-                        <a href="#">Food Donation</a>
-                        <a href="#">NGO Support</a>
-                        <a href="#">Emergency Help</a>
-                        <a href="#">Volunteer Program</a>
-
+                        <a href="login-register.php">Food Donation</a>
+                        <a href="ngos.php">NGO Support</a>
+                        <a href="login-register.php">Emergency Help</a>
+                        <a href="login-register.php">Volunteer Program</a>
                     </div>
-
                 </div>
-
                 <div class="col-lg-3 mb-4">
-
-                    <div class="footer-title">
-                        Contact
-                    </div>
-
+                    <div class="footer-title">Contact</div>
                     <p>Email: support@sayog.com</p>
                     <p>Phone: +977 9800000000</p>
                     <p>Kathmandu, Nepal</p>
-
                 </div>
-
             </div>
-
-            <div class="copyright">
-
-                © 2026 Sayog. All Rights Reserved.
-
-            </div>
-
+            <div class="copyright">© 2026 Sayog. All Rights Reserved.</div>
         </div>
-
     </footer>
 
-    <!-- Bootstrap JS -->
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
 </body>
 
 </html>
