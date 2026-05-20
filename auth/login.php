@@ -500,7 +500,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                     </button>
                                 </div>
                                 <button type="submit" class="btn-primary-glow">
-                                    <i class="fas fa-paper-plane"></i> Sign in
+                                   <a href="../AdminLTE-4.0.0-rc7/AdminLTE-4.0.0-rc7/index.html"> <i class="fas fa-paper-plane"></i> Sign in</a>
                                 </button>
                                 <div class="switch-action">
                                     <a href="#" onclick="switchTab('registerForm'); return false;">✨ Don't have an account? Create one</a>

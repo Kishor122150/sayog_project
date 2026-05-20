@@ -392,7 +392,7 @@
                 </li>
 
                 <li class="nav-item ms-lg-3">
-                    <a href="#donations" class="btn btn-main">
+                    <a href="./auth/register.php" class="btn btn-main">
                         Donate Now
                     </a>
                 </li>
@@ -427,7 +427,7 @@
 
                 <div class="hero-btns">
 
-                    <a href="#donations" class="btn-light-custom">
+                    <a href="./auth/register.php" class="btn-light-custom">
                         Start Donating
                     </a>
 
@@ -568,7 +568,7 @@
                                 2 KM Away
                             </span>
 
-                            <a href="#" class="btn btn-main btn-sm">
+                            <a href="./auth/register.php" class="btn btn-main btn-sm">
                                 Request
                             </a>
 
@@ -607,7 +607,7 @@
                                 5 KM Away
                             </span>
 
-                            <a href="#" class="btn btn-main btn-sm">
+                            <a href="./auth/register.php" class="btn btn-main btn-sm">
                                 Request
                             </a>
 
@@ -646,7 +646,7 @@
                                 3 KM Away
                             </span>
 
-                            <a href="#" class="btn btn-main btn-sm">
+                            <a href="./auth/register.php" class="btn btn-main btn-sm">
                                 Request
                             </a>
 
@@ -730,7 +730,7 @@
                 Together we can reduce hunger and create a better future.
             </p>
 
-            <a href="#contact" class="btn-light-custom mt-4 d-inline-block">
+            <a href="./auth/register.php" class="btn-light-custom mt-4 d-inline-block">
                 Become a Donor
             </a>
 
