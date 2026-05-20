@@ -6,3 +6,4 @@
 - [x] Update CTA button to point to `#contact`
 - [ ] (Optional) Add smooth scrolling + close mobile navbar after click
 - [ ] Manual test: click navbar + hero buttons, verify scrolling works
+git branch -

@@ -1,11 +1,12 @@
 <?php
 // auth/login.php
-// Redesigned beautiful login + register page with modern UI/UX
+// Fully responsive login + register page with Role Selection (Donor, Consumer, Admin)
 
 session_start();
 
 $message = '';
 $messageType = 'info';
+$activeForm = 'loginForm'; // Default to login form
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $action = $_POST['action'] ?? '';
@@ -13,14 +14,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($action === 'login') {
         $email = trim((string)($_POST['email'] ?? ''));
         $password = (string)($_POST['password'] ?? '');
+        $role = $_POST['role'] ?? '';
 
-        if ($email === '' || $password === '') {
-            $message = 'Please enter both email and password.';
+        if ($email === '' || $password === '' || $role === '') {
+            $message = 'Please enter email, password and select role.';
             $messageType = 'danger';
         } else {
-            $message = 'Login submitted (layout only – no authentication yet).';
+            $message = 'Login submitted as ' . htmlspecialchars($role) . ' (layout only – no authentication yet).';
             $messageType = 'success';
         }
+        $activeForm = 'loginForm';
     }
 
     if ($action === 'register') {
@@ -28,24 +31,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $email = trim((string)($_POST['email'] ?? ''));
         $password = (string)($_POST['password'] ?? '');
         $confirm = (string)($_POST['confirm_password'] ?? '');
+        $role = $_POST['role'] ?? '';
 
-        if ($name === '' || $email === '' || $password === '' || $confirm === '') {
-            $message = 'Please fill all register fields.';
+        if ($name === '' || $email === '' || $password === '' || $confirm === '' || $role === '') {
+            $message = 'Please fill all register fields including role selection.';
             $messageType = 'danger';
+            $activeForm = 'registerForm';
         } elseif ($password !== $confirm) {
             $message = 'Password and confirm password do not match.';
             $messageType = 'danger';
+            $activeForm = 'registerForm';
         } else {
-            $message = 'Register submitted (layout only – no database yet).';
+            $message = 'Registration successful! Please login with your credentials.';
             $messageType = 'success';
+            // After successful registration, switch to login form
+            $activeForm = 'loginForm';
         }
     }
-}
-
-// Decide which tab should be active after POST.
-$activeForm = 'loginForm';
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $activeForm = ($_POST['action'] ?? '') === 'register' ? 'registerForm' : 'loginForm';
 }
 
 ?>
@@ -54,8 +56,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Sayog | Join the Food Donation Community</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <title>Sayog | Join the Food Donation Community - Donor, Consumer, Admin</title>
 
     <!-- Google Fonts + Font Awesome -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
@@ -73,6 +75,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             background: linear-gradient(145deg, #eef7f0 0%, #d9f0e0 100%);
             min-height: 100vh;
             position: relative;
+            overflow-y: auto;
             overflow-x: hidden;
         }
 
@@ -80,12 +83,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         body::before {
             content: '';
             position: fixed;
-            width: 70vmax;
-            height: 70vmax;
-            background: radial-gradient(circle, rgba(34, 197, 94, 0.2) 0%, rgba(22, 163, 74, 0) 70%);
+            width: 100vmax;
+            height: 100vmax;
+            background: radial-gradient(circle, rgba(34, 197, 94, 0.15) 0%, rgba(22, 163, 74, 0) 70%);
             border-radius: 50%;
-            top: -20vh;
-            left: -20vw;
+            top: -30vh;
+            left: -30vw;
             z-index: 0;
             animation: floatBlob 28s infinite alternate ease-in-out;
         }
@@ -93,12 +96,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         body::after {
             content: '';
             position: fixed;
-            width: 60vmax;
-            height: 60vmax;
-            background: radial-gradient(circle, rgba(6, 78, 59, 0.12) 0%, rgba(6, 78, 59, 0) 70%);
+            width: 90vmax;
+            height: 90vmax;
+            background: radial-gradient(circle, rgba(6, 78, 59, 0.1) 0%, rgba(6, 78, 59, 0) 70%);
             border-radius: 50%;
-            bottom: -20vh;
-            right: -20vw;
+            bottom: -30vh;
+            right: -30vw;
             z-index: 0;
             animation: floatBlob 32s infinite alternate-reverse ease-in-out;
         }
@@ -109,63 +112,100 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
 
             100% {
-                transform: translate(5%, 7%) scale(1.1);
+                transform: translate(3%, 5%) scale(1.05);
             }
         }
 
-        /* main container */
+        /* main container - mobile first */
         .auth-wrapper {
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 1.5rem;
+            padding: 1rem;
             position: relative;
             z-index: 2;
         }
 
         .glass-card {
-            max-width: 1240px;
+            max-width: 500px;
             width: 100%;
-            background: rgba(255, 255, 255, 0.96);
-            backdrop-filter: blur(0px);
-            border-radius: 2.5rem;
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 1.5rem;
             overflow: hidden;
-            box-shadow: 0 30px 50px -20px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(255, 255, 255, 0.6);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.15);
+            transition: all 0.3s ease;
         }
 
-        .glass-card:hover {
-            box-shadow: 0 40px 60px -20px rgba(0, 0, 0, 0.3);
+        /* Larger screens */
+        @media (min-width: 768px) {
+            .glass-card {
+                max-width: 1100px;
+            }
         }
 
-        /* left side : brand story */
+        /* left side : brand story with image */
         .brand-side {
-            background: linear-gradient(135deg, #0f2b1d 0%, #14532d 100%);
-            padding: 2.8rem 2.2rem;
-            height: 100%;
+            background: linear-gradient(135deg, #0a2b1a 0%, #0f3d23 100%);
+            padding: 1.5rem;
             position: relative;
             color: white;
-            border-radius: 0 2rem 2rem 0;
+        }
+
+        @media (min-width: 768px) {
+            .brand-side {
+                padding: 2rem;
+                border-radius: 0 2rem 2rem 0;
+                min-height: 100%;
+            }
+        }
+
+        .food-image-container {
+            width: 100%;
+            border-radius: 1rem;
+            overflow: hidden;
+            margin-bottom: 1rem;
+            box-shadow: 0 8px 20px -5px rgba(0, 0, 0, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .food-image-container img {
+            width: 100%;
+            height: auto;
+            max-height: 180px;
+            object-fit: cover;
+            display: block;
+        }
+
+        @media (min-width: 768px) {
+            .food-image-container img {
+                max-height: 220px;
+            }
         }
 
         .brand-logo {
-            font-size: 2.2rem;
+            font-size: 1.6rem;
             font-weight: 800;
             letter-spacing: -0.02em;
             background: linear-gradient(120deg, #f0fdf4, #bbf7d0);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            margin-bottom: 1.5rem;
+            margin-bottom: 0.5rem;
             display: inline-block;
         }
 
-        .brand-side h2 {
+        .brand-side h3 {
             font-weight: 700;
-            font-size: 1.9rem;
+            font-size: 1.3rem;
             line-height: 1.3;
-            margin: 0.5rem 0 1rem 0;
+            margin: 0.25rem 0 0.5rem 0;
+        }
+
+        @media (min-width: 768px) {
+            .brand-side h3 {
+                font-size: 1.5rem;
+            }
         }
 
         .highlight-green {
@@ -174,48 +214,80 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             display: inline-block;
         }
 
+        .brand-description {
+            opacity: 0.85;
+            line-height: 1.4;
+            margin: 0.5rem 0 1rem 0;
+            font-size: 0.8rem;
+        }
+
+        @media (min-width: 768px) {
+            .brand-description {
+                font-size: 0.85rem;
+            }
+        }
+
         .trust-features {
-            margin-top: 2rem;
-            display: flex;
-            flex-direction: column;
-            gap: 1.2rem;
+            margin-top: 0.8rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 0.6rem;
+        }
+
+        @media (min-width: 768px) {
+            .trust-features {
+                gap: 0.8rem;
+            }
         }
 
         .feature-chip {
             display: flex;
             align-items: center;
-            gap: 1rem;
-            background: rgba(255, 255, 255, 0.12);
+            gap: 0.6rem;
+            background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(4px);
-            padding: 0.8rem 1.2rem;
-            border-radius: 1.5rem;
+            padding: 0.5rem 0.8rem;
+            border-radius: 1rem;
             transition: all 0.2s;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.15);
         }
 
         .feature-chip i {
-            font-size: 1.6rem;
-            width: 2rem;
+            font-size: 1rem;
+            width: 1.4rem;
             color: #bef264;
         }
 
         .feature-chip span {
             font-weight: 500;
-            font-size: 0.95rem;
+            font-size: 0.75rem;
+        }
+
+        @media (min-width: 768px) {
+            .feature-chip span {
+                font-size: 0.8rem;
+            }
         }
 
         .impact-text {
-            margin-top: 2rem;
-            font-size: 0.85rem;
+            margin-top: 1rem;
+            font-size: 0.7rem;
             opacity: 0.85;
             border-top: 1px solid rgba(255, 255, 255, 0.2);
-            padding-top: 1.5rem;
+            padding-top: 0.8rem;
+            text-align: center;
         }
 
         /* right side */
         .form-side {
-            padding: 2.2rem 2rem;
+            padding: 1.5rem;
             background: white;
+        }
+
+        @media (min-width: 768px) {
+            .form-side {
+                padding: 2rem;
+            }
         }
 
         /* modern tabs */
@@ -223,34 +295,41 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             display: flex;
             gap: 0.5rem;
             background: #f1f5f9;
-            padding: 0.4rem;
-            border-radius: 3rem;
-            margin-bottom: 2rem;
+            padding: 0.3rem;
+            border-radius: 2rem;
+            margin-bottom: 1.5rem;
         }
 
         .tab-item {
             flex: 1;
             text-align: center;
-            padding: 0.7rem 0;
+            padding: 0.6rem 0;
             font-weight: 700;
-            border-radius: 2.5rem;
+            border-radius: 2rem;
             background: transparent;
             border: none;
             cursor: pointer;
             transition: all 0.2s;
-            font-size: 1rem;
+            font-size: 0.85rem;
             color: #334155;
         }
 
+        @media (min-width: 768px) {
+            .tab-item {
+                padding: 0.7rem 0;
+                font-size: 0.95rem;
+            }
+        }
+
         .tab-item i {
-            margin-right: 8px;
-            font-size: 0.9rem;
+            margin-right: 6px;
+            font-size: 0.85rem;
         }
 
         .tab-item.active {
             background: white;
             color: #15803d;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
         }
 
         /* forms */
@@ -275,59 +354,173 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
         }
 
-        .input-group-icon {
-            position: relative;
-            margin-bottom: 1.4rem;
+        /* Role Selector */
+        .role-selector {
+            margin-bottom: 1rem;
         }
 
-        .input-group-icon i {
+        .role-label {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #334155;
+            margin-bottom: 0.5rem;
+        }
+
+        .role-options {
+            display: flex;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+        }
+
+        .role-option {
+            flex: 1;
+            min-width: 100px;
+            position: relative;
+        }
+
+        .role-option input[type="radio"] {
             position: absolute;
-            left: 1rem;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+            z-index: 2;
+        }
+
+        .role-card {
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 1rem;
+            padding: 0.8rem 0.5rem;
+            text-align: center;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .role-option input[type="radio"]:checked+.role-card {
+            background: linear-gradient(135deg, #e8f5e9, #c8e6d9);
+            border-color: #16a34a;
+            box-shadow: 0 4px 12px rgba(22, 163, 74, 0.2);
+        }
+
+        .role-option input[type="radio"]:checked+.role-card i {
+            color: #16a34a;
+        }
+
+        .role-card i {
+            font-size: 1.5rem;
+            color: #64748b;
+            margin-bottom: 0.3rem;
+            display: block;
+        }
+
+        .role-card .role-name {
+            font-weight: 700;
+            font-size: 0.8rem;
+            color: #1e293b;
+        }
+
+        .role-card .role-desc {
+            font-size: 0.65rem;
+            color: #64748b;
+            margin-top: 0.2rem;
+        }
+
+        @media (max-width: 480px) {
+            .role-options {
+                gap: 0.5rem;
+            }
+
+            .role-card {
+                padding: 0.6rem 0.3rem;
+            }
+
+            .role-card i {
+                font-size: 1.2rem;
+            }
+
+            .role-card .role-name {
+                font-size: 0.7rem;
+            }
+
+            .role-card .role-desc {
+                font-size: 0.55rem;
+            }
+        }
+
+        /* Input wrapper */
+        .input-wrapper {
+            position: relative;
+            width: 100%;
+            margin-bottom: 1rem;
+        }
+
+        .input-icon-left {
+            position: absolute;
+            left: 0.9rem;
             top: 50%;
             transform: translateY(-50%);
             color: #94a3b8;
-            font-size: 1.1rem;
+            font-size: 0.9rem;
+            z-index: 1;
             pointer-events: none;
         }
 
-        .input-group-icon input {
+        .input-wrapper input {
             width: 100%;
-            padding: 0.9rem 1rem 0.9rem 2.8rem;
+            padding: 0.75rem 3rem 0.75rem 2.5rem;
             border: 1.5px solid #e2e8f0;
-            border-radius: 1.2rem;
-            font-size: 0.95rem;
+            border-radius: 1rem;
+            font-size: 0.85rem;
             font-family: 'Inter', sans-serif;
             background: #fefefe;
             transition: all 0.2s;
             outline: none;
         }
 
-        .input-group-icon input:focus {
+        @media (min-width: 768px) {
+            .input-wrapper input {
+                padding: 0.85rem 3rem 0.85rem 2.8rem;
+                font-size: 0.9rem;
+            }
+        }
+
+        .input-wrapper input:focus {
             border-color: #16a34a;
-            box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.2);
+            box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.1);
         }
 
         .password-toggle {
             position: absolute;
-            right: 1rem;
+            right: 0.7rem;
             top: 50%;
             transform: translateY(-50%);
-            background: none;
+            background: transparent;
             border: none;
             cursor: pointer;
             color: #94a3b8;
-            z-index: 3;
+            z-index: 2;
             font-size: 1rem;
+            padding: 0.4rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: color 0.2s;
+        }
+
+        .password-toggle:hover {
+            color: #15803d;
         }
 
         .btn-primary-glow {
             background: linear-gradient(95deg, #15803d, #22c55e);
             border: none;
-            padding: 0.9rem;
+            padding: 0.75rem;
             width: 100%;
-            border-radius: 1.5rem;
+            border-radius: 1.2rem;
             font-weight: 700;
-            font-size: 1rem;
+            font-size: 0.9rem;
             color: white;
             display: flex;
             align-items: center;
@@ -336,19 +529,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             transition: all 0.2s;
             cursor: pointer;
             margin-top: 0.5rem;
-            box-shadow: 0 6px 14px rgba(34, 197, 94, 0.3);
+            box-shadow: 0 4px 12px rgba(34, 197, 94, 0.25);
         }
 
-        .btn-primary-glow:hover {
-            transform: scale(0.98);
-            background: linear-gradient(95deg, #0f6e36, #16a34a);
-            box-shadow: 0 4px 10px rgba(34, 197, 94, 0.4);
+        @media (min-width: 768px) {
+            .btn-primary-glow {
+                padding: 0.85rem;
+                font-size: 0.95rem;
+            }
+        }
+
+        .btn-primary-glow:active {
+            transform: scale(0.97);
         }
 
         .switch-action {
             text-align: center;
-            margin-top: 1.6rem;
-            font-size: 0.85rem;
+            margin-top: 1.2rem;
+            font-size: 0.75rem;
+        }
+
+        @media (min-width: 768px) {
+            .switch-action {
+                margin-top: 1.4rem;
+                font-size: 0.8rem;
+            }
         }
 
         .switch-action a {
@@ -359,25 +564,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         .fine-print {
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             text-align: center;
             color: #6c757d;
-            margin-top: 1.8rem;
+            margin-top: 1.2rem;
             border-top: 1px solid #eef2ff;
-            padding-top: 1.2rem;
+            padding-top: 0.8rem;
         }
 
         /* custom alert */
         .custom-alert {
-            padding: 0.8rem 1.2rem;
-            border-radius: 1.2rem;
-            margin-bottom: 1.6rem;
+            padding: 0.6rem 0.9rem;
+            border-radius: 1rem;
+            margin-bottom: 1.2rem;
             display: flex;
             align-items: center;
-            gap: 10px;
-            font-size: 0.85rem;
+            gap: 8px;
+            font-size: 0.75rem;
             font-weight: 500;
-            backdrop-filter: blur(4px);
         }
 
         .alert-success {
@@ -398,29 +602,54 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             color: #1e3a8a;
         }
 
-        /* responsiveness */
-        @media (max-width: 900px) {
-            .brand-side {
-                border-radius: 2rem 2rem 0 0;
+        /* Desktop layout - two columns */
+        @media (min-width: 768px) {
+            .row {
+                display: flex;
+                flex-wrap: wrap;
             }
 
-            .glass-card {
-                border-radius: 1.8rem;
+            .col-brand {
+                flex: 1.2;
+                min-width: 280px;
             }
 
-            .form-side {
-                padding: 1.8rem;
+            .col-form {
+                flex: 1.8;
+                min-width: 320px;
             }
         }
 
-        @media (max-width: 640px) {
-            .brand-side h2 {
-                font-size: 1.4rem;
+        /* Small mobile adjustments */
+        @media (max-width: 480px) {
+            .auth-wrapper {
+                padding: 0.75rem;
+            }
+
+            .form-side {
+                padding: 1.2rem;
+            }
+
+            .brand-side {
+                padding: 1.2rem;
+            }
+
+            .brand-side h3 {
+                font-size: 1.2rem;
+            }
+
+            .trust-features {
+                grid-template-columns: 1fr;
+                gap: 0.5rem;
             }
 
             .feature-chip {
-                padding: 0.6rem 1rem;
+                padding: 0.4rem 0.7rem;
             }
+        }
+
+        html {
+            scroll-behavior: smooth;
         }
     </style>
 </head>
@@ -428,15 +657,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
     <div class="auth-wrapper">
         <div class="glass-card">
-            <div class="row" style="display: flex; flex-wrap: wrap;">
+            <div class="row">
                 <!-- left brand area -->
-                <div class="col-brand" style="flex: 1.2; min-width: 260px;">
+                <div class="col-brand">
                     <div class="brand-side">
+                        <div class="food-image-container">
+                            <img src="https://images.unsplash.com/photo-1488459716781-31db52582fe9?q=80&w=600&auto=format" alt="Food donation" onerror="this.onerror=null; this.src='https://placehold.co/600x400/e2f0e2/2d6a4f?text=Food+Donation';">
+                        </div>
+
                         <div class="brand-logo">
                             <i class="fas fa-hand-holding-heart"></i> Say<span style="color:#bef264;">og</span>
                         </div>
-                        <h2>Donate food.<br>Change <span class="highlight-green">lives</span>.</h2>
-                        <p style="opacity: 0.85; line-height: 1.5; margin: 1rem 0 0 0;">Join a community where every meal shared brings hope.</p>
+                        <h3>Donate food.<br>Change <span class="highlight-green">lives</span>.</h3>
+                        <p class="brand-description">
+                            Join a community where every meal shared brings hope to those in need.
+                        </p>
 
                         <div class="trust-features">
                             <div class="feature-chip">
@@ -445,25 +680,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             </div>
                             <div class="feature-chip">
                                 <i class="fas fa-location-dot"></i>
-                                <span>Smart geolocation matching</span>
+                                <span>Smart geolocation</span>
                             </div>
                             <div class="feature-chip">
                                 <i class="fas fa-bell"></i>
-                                <span>Real-time donor alerts</span>
+                                <span>Real-time alerts</span>
                             </div>
                             <div class="feature-chip">
                                 <i class="fas fa-chart-line"></i>
-                                <span>Impact tracking dashboard</span>
+                                <span>Impact tracking</span>
                             </div>
                         </div>
                         <div class="impact-text">
-                            <i class="fas fa-leaf"></i> 2,300+ meals shared • 45+ partner NGOs
+                            <i class="fas fa-leaf"></i> 2,300+ meals shared • 45+ NGOs
                         </div>
                     </div>
                 </div>
 
                 <!-- right form area -->
-                <div class="col-form" style="flex: 1.8; min-width: 300px;">
+                <div class="col-form">
                     <div class="form-side">
 
                         <!-- dynamic alert -->
@@ -477,75 +712,146 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <!-- modern tab navigation -->
                         <div class="modern-tabs">
                             <button class="tab-item <?php echo $activeForm === 'loginForm' ? 'active' : ''; ?>" data-target="loginForm">
-                                <i class="fas fa-arrow-right-to-bracket"></i> Login
+                                <i class="fas fa-arrow-right-to-bracket"></i> <span class="tab-text">Login</span>
                             </button>
                             <button class="tab-item <?php echo $activeForm === 'registerForm' ? 'active' : ''; ?>" data-target="registerForm">
-                                <i class="fas fa-user-plus"></i> Register
+                                <i class="fas fa-user-plus"></i> <span class="tab-text">Register</span>
                             </button>
                         </div>
 
-                        <!-- LOGIN FORM -->
+                        <!-- LOGIN FORM (Email + Password + Role only) -->
                         <div class="auth-panel <?php echo $activeForm === 'loginForm' ? 'active' : ''; ?>" id="loginForm">
                             <form method="POST" action="">
                                 <input type="hidden" name="action" value="login">
-                                <div class="input-group-icon">
-                                    <i class="fas fa-envelope"></i>
+
+                                <div class="input-wrapper">
+                                    <i class="fas fa-envelope input-icon-left"></i>
                                     <input type="email" name="email" placeholder="Email address" required autocomplete="email">
                                 </div>
-                                <div class="input-group-icon">
-                                    <i class="fas fa-lock"></i>
+
+                                <div class="input-wrapper">
+                                    <i class="fas fa-lock input-icon-left"></i>
                                     <input type="password" name="password" id="loginPassword" placeholder="Password" required>
-                                    <button type="button" class="password-toggle" onclick="togglePassword('loginPassword')">
+                                    <button type="button" class="password-toggle" onclick="togglePassword('loginPassword', this)">
                                         <i class="far fa-eye-slash"></i>
                                     </button>
                                 </div>
+
+                                <!-- Role Selector for Login -->
+                                <div class="role-selector">
+                                    <label class="role-label"><i class="fas fa-user-tag"></i> Login as</label>
+                                    <div class="role-options">
+                                        <label class="role-option">
+                                            <input type="radio" name="role" value="donor" required>
+                                            <div class="role-card">
+                                                <i class="fas fa-hand-holding-heart"></i>
+                                                <div class="role-name">Donor</div>
+                                                <div class="role-desc">Restaurant/Hotel/Individual</div>
+                                            </div>
+                                        </label>
+                                        <label class="role-option">
+                                            <input type="radio" name="role" value="consumer">
+                                            <div class="role-card">
+                                                <i class="fas fa-utensils"></i>
+                                                <div class="role-name">Consumer</div>
+                                                <div class="role-desc">NGO/Community/Individual</div>
+                                            </div>
+                                        </label>
+                                        <label class="role-option">
+                                            <input type="radio" name="role" value="admin">
+                                            <div class="role-card">
+                                                <i class="fas fa-user-shield"></i>
+                                                <div class="role-name">Admin</div>
+                                                <div class="role-desc">Platform Manager</div>
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+
                                 <button type="submit" class="btn-primary-glow">
                                    <a href="../AdminLTE-4.0.0-rc7/AdminLTE-4.0.0-rc7/index.html"> <i class="fas fa-paper-plane"></i> Sign in</a>
                                 </button>
                                 <div class="switch-action">
-                                    <a href="#" onclick="switchTab('registerForm'); return false;">✨ Don't have an account? Create one</a>
+                                    <a href="#" onclick="switchTab('registerForm'); return false;">✨ Don't have an account? Register</a>
                                 </div>
                             </form>
                         </div>
 
-                        <!-- REGISTER FORM -->
+                        <!-- REGISTER FORM (Full Name, Email, Password, Confirm Password, Role) -->
                         <div class="auth-panel <?php echo $activeForm === 'registerForm' ? 'active' : ''; ?>" id="registerForm">
                             <form method="POST" action="">
                                 <input type="hidden" name="action" value="register">
-                                <div class="input-group-icon">
-                                    <i class="fas fa-user-astronaut"></i>
+
+                                <div class="input-wrapper">
+                                    <i class="fas fa-user-astronaut input-icon-left"></i>
                                     <input type="text" name="name" placeholder="Full name" required autocomplete="name">
                                 </div>
-                                <div class="input-group-icon">
-                                    <i class="fas fa-envelope"></i>
+
+                                <div class="input-wrapper">
+                                    <i class="fas fa-envelope input-icon-left"></i>
                                     <input type="email" name="email" placeholder="Email address" required autocomplete="email">
                                 </div>
-                                <div class="input-group-icon">
-                                    <i class="fas fa-key"></i>
+
+                                <div class="input-wrapper">
+                                    <i class="fas fa-key input-icon-left"></i>
                                     <input type="password" name="password" id="regPassword" placeholder="Create password" required>
-                                    <button type="button" class="password-toggle" onclick="togglePassword('regPassword')">
+                                    <button type="button" class="password-toggle" onclick="togglePassword('regPassword', this)">
                                         <i class="far fa-eye-slash"></i>
                                     </button>
                                 </div>
-                                <div class="input-group-icon">
-                                    <i class="fas fa-check-circle"></i>
+
+                                <div class="input-wrapper">
+                                    <i class="fas fa-check-circle input-icon-left"></i>
                                     <input type="password" name="confirm_password" id="confirmPass" placeholder="Confirm password" required>
-                                    <button type="button" class="password-toggle" onclick="togglePassword('confirmPass')">
+                                    <button type="button" class="password-toggle" onclick="togglePassword('confirmPass', this)">
                                         <i class="far fa-eye-slash"></i>
                                     </button>
                                 </div>
-                                <div id="passMatchHint" style="font-size: 0.7rem; margin-top: -0.6rem; margin-bottom: 0.5rem;"></div>
+
+                                <div id="passMatchHint" style="font-size: 0.7rem; margin-top: -0.5rem; margin-bottom: 0.5rem; padding-left: 0.5rem;"></div>
+
+                                <!-- Role Selector for Registration -->
+                                <div class="role-selector">
+                                    <label class="role-label"><i class="fas fa-user-tag"></i> Register as</label>
+                                    <div class="role-options">
+                                        <label class="role-option">
+                                            <input type="radio" name="role" value="donor" required>
+                                            <div class="role-card">
+                                                <i class="fas fa-hand-holding-heart"></i>
+                                                <div class="role-name">Donor</div>
+                                                <div class="role-desc">Restaurant/Hotel/Individual</div>
+                                            </div>
+                                        </label>
+                                        <label class="role-option">
+                                            <input type="radio" name="role" value="consumer">
+                                            <div class="role-card">
+                                                <i class="fas fa-utensils"></i>
+                                                <div class="role-name">Consumer</div>
+                                                <div class="role-desc">NGO/Community/Individual</div>
+                                            </div>
+                                        </label>
+                                        <label class="role-option">
+                                            <input type="radio" name="role" value="admin">
+                                            <div class="role-card">
+                                                <i class="fas fa-user-shield"></i>
+                                                <div class="role-name">Admin</div>
+                                                <div class="role-desc">Platform Manager</div>
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+
                                 <button type="submit" class="btn-primary-glow">
-                                    <i class="fas fa-hand-peace"></i> Join Sayog
+                                    <i class="fas fa-hand-peace"></i> Register
                                 </button>
                                 <div class="switch-action">
-                                    <a href="#" onclick="switchTab('loginForm'); return false;">🔐 Already have an account? Sign in</a>
+                                    <a href="#" onclick="switchTab('loginForm'); return false;">🔐 Already have an account? Login</a>
                                 </div>
                             </form>
                         </div>
 
                         <div class="fine-print">
-                            <i class="far fa-id-card"></i> Demo preview — no real authentication. Experience the sleek interface.
+                            <i class="far fa-id-card"></i> Demo preview — no real authentication yet
                         </div>
                     </div>
                 </div>
@@ -556,7 +862,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <script>
         // tab switching logic
         function switchTab(targetId) {
-            // update panels
             document.querySelectorAll('.auth-panel').forEach(panel => panel.classList.remove('active'));
             document.querySelectorAll('.tab-item').forEach(btn => btn.classList.remove('active'));
 
@@ -575,25 +880,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             });
         });
 
-        // universal password toggle
-        function togglePassword(fieldId) {
+        // password toggle function
+        function togglePassword(fieldId, buttonElement) {
             const field = document.getElementById(fieldId);
             if (!field) return;
-            const type = field.type === 'password' ? 'text' : 'password';
-            field.type = type;
-            const toggleBtn = field.parentElement.querySelector('.password-toggle i');
-            if (toggleBtn) {
-                if (type === 'text') {
-                    toggleBtn.classList.remove('fa-eye-slash');
-                    toggleBtn.classList.add('fa-eye');
-                } else {
-                    toggleBtn.classList.remove('fa-eye');
-                    toggleBtn.classList.add('fa-eye-slash');
-                }
+
+            const icon = buttonElement.querySelector('i');
+
+            if (field.type === 'password') {
+                field.type = 'text';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            } else {
+                field.type = 'password';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
             }
         }
 
-        // real-time password match hint for registration (UX only)
+        // real-time password match hint
         const regPass = document.getElementById('regPassword');
         const confirmPass = document.getElementById('confirmPass');
         const hintDiv = document.getElementById('passMatchHint');
@@ -604,7 +909,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 const confirmVal = confirmPass.value;
                 if (confirmVal.length === 0) {
                     hintDiv.innerHTML = '';
-                    hintDiv.style.color = '';
                 } else if (passVal === confirmVal) {
                     hintDiv.innerHTML = '<i class="fas fa-check-circle"></i> Passwords match!';
                     hintDiv.style.color = '#15803d';
@@ -620,8 +924,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             confirmPass.addEventListener('input', updateMatchHint);
         }
 
-        // preserve active tab on page reload if there was a form error? (already using PHP activeForm)
-        // also automatically show any validation on register: additional frontend password match before submit?
+        // frontend password match before register submit
         const registerFormElem = document.querySelector('#registerForm form');
         if (registerFormElem) {
             registerFormElem.addEventListener('submit', function(e) {
@@ -632,18 +935,43 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     alert('❌ Passwords do not match. Please check before registering.');
                     return false;
                 }
-                // you may also add additional name/email check but backend already does
+
+                const roleSelected = document.querySelector('#registerForm input[name="role"]:checked');
+                if (!roleSelected) {
+                    e.preventDefault();
+                    alert('❌ Please select a role (Donor, Consumer, or Admin) to register.');
+                    return false;
+                }
                 return true;
             });
         }
 
-        // tiny UX: initial toggle icon correction
-        document.querySelectorAll('.password-toggle').forEach(btn => {
-            btn.addEventListener('click', function(e) {
-                e.preventDefault();
+        // Login form role check
+        const loginFormElem = document.querySelector('#loginForm form');
+        if (loginFormElem) {
+            loginFormElem.addEventListener('submit', function(e) {
+                const roleSelected = document.querySelector('#loginForm input[name="role"]:checked');
+                if (!roleSelected) {
+                    e.preventDefault();
+                    alert('❌ Please select a role (Donor, Consumer, or Admin) to login.');
+                    return false;
+                }
+                return true;
             });
+        }
+
+        // Make role cards clickable
+        document.querySelectorAll('.role-option').forEach(option => {
+            const radio = option.querySelector('input[type="radio"]');
+            const card = option.querySelector('.role-card');
+            if (card) {
+                card.addEventListener('click', () => {
+                    radio.checked = true;
+                });
+            }
         });
     </script>
 </body>
 
 </html>
+```
