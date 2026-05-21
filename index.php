@@ -457,9 +457,8 @@
                     <h1>Reduce Food Waste <br> Help Needy People</h1>
                     <p>Sayog is a smart food donation and redistribution platform connecting restaurants, hotels, NGOs, and individuals with people who truly need support.</p>
                     <div class="hero-btns">
-                        <a href="login.php?redirect=donate.php" class="btn-light-custom">Start Donating</a>
-                        <!-- FIXED: Now goes to How It Works page -->
-                        <a href="./how-it-works.php" class="btn-outline-custom">Explore More</a>
+                        <a href="how-it-works.php" class="btn-light-custom">Start Donating</a>
+                        <a href="how-it-works.php" class="btn-outline-custom">Explore More</a>
                     </div>
                     <div class="mt-5 d-flex gap-4">
                         <div><strong class="fs-2">5000+</strong><br><span>Meals Saved</span></div>
