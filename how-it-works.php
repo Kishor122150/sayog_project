@@ -1,5 +1,5 @@
 <?php
-// how-it-works.php - How It Works Page
+// index.php - Home Page
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -7,10 +7,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sayog - How It Works | Food Donation Platform</title>
+    <title>Sayog - Home | Food Donation & Redistribution Platform</title>
+
+    <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
     <style>
         * {
             margin: 0;
@@ -21,12 +24,15 @@
 
         body {
             background: #f8fafc;
+            overflow-x: hidden;
         }
 
         :root {
             --primary: #16a34a;
             --primary-dark: #14532d;
             --light: #f0fdf4;
+            --dark: #111827;
+            --gray: #6b7280;
         }
 
         .navbar {
@@ -60,107 +66,180 @@
         .btn-main {
             background: var(--primary);
             color: #fff;
-            padding: 12px 30px;
-            border-radius: 50px;
+            padding: 10px 22px;
+            border-radius: 10px;
             border: none;
             font-weight: 600;
             transition: 0.3s;
-            text-decoration: none;
-            display: inline-block;
         }
 
         .btn-main:hover {
             background: var(--primary-dark);
             transform: translateY(-2px);
+        }
+
+        .hero {
+            min-height: 90vh;
+            display: flex;
+            align-items: center;
+            background: linear-gradient(to right, rgba(22, 163, 74, 0.92), rgba(20, 83, 45, 0.92)),
+                url('https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?q=80&w=1200&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
             color: white;
         }
 
-        .page-header {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+        .hero h1 {
+            font-size: 60px;
+            font-weight: 700;
+            line-height: 1.3;
+        }
+
+        .hero p {
+            font-size: 18px;
+            margin-top: 20px;
+            color: #e5e7eb;
+        }
+
+        .btn-light-custom {
+            background: white;
+            color: var(--primary);
+            padding: 12px 25px;
+            border-radius: 12px;
+            font-weight: 600;
+            text-decoration: none;
+            margin-right: 10px;
+            transition: 0.3s;
+        }
+
+        .btn-light-custom:hover {
+            background: #dcfce7;
+            color: var(--primary-dark);
+        }
+
+        .btn-outline-custom {
+            border: 2px solid white;
             color: white;
-            padding: 80px 0;
+            padding: 12px 25px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .btn-outline-custom:hover {
+            background: white;
+            color: var(--primary);
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-title h2 {
+            font-size: 40px;
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        .section-title p {
+            color: var(--gray);
+            margin-top: 10px;
+        }
+
+        section {
+            padding: 100px 0;
+        }
+
+        .feature-card {
+            background: white;
+            border-radius: 20px;
+            padding: 35px;
+            transition: 0.3s;
+            height: 100%;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .feature-icon {
+            width: 70px;
+            height: 70px;
+            background: var(--light);
+            color: var(--primary);
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            margin-bottom: 25px;
+        }
+
+        .donation-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            transition: 0.3s;
+        }
+
+        .donation-card:hover {
+            transform: translateY(-8px);
+        }
+
+        .donation-card img {
+            width: 100%;
+            height: 240px;
+            object-fit: cover;
+        }
+
+        .donation-content {
+            padding: 25px;
+        }
+
+        .badge-custom {
+            background: #dcfce7;
+            color: var(--primary);
+            padding: 8px 15px;
+            border-radius: 30px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .stats {
+            background: var(--primary);
+            color: white;
+        }
+
+        .stat-box {
             text-align: center;
         }
 
-        .page-header h1 {
+        .stat-box h2 {
             font-size: 48px;
             font-weight: 700;
         }
 
-        .page-header .lead {
+        .stat-box p {
             font-size: 18px;
-            opacity: 0.9;
+            color: #dcfce7;
         }
 
-        .step-card {
-            text-align: center;
-            padding: 35px 25px;
-            background: white;
-            border-radius: 24px;
-            height: 100%;
-            transition: 0.3s;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-            border: 1px solid #e2e8f0;
-        }
-
-        .step-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-            border-color: var(--primary);
-        }
-
-        .step-number {
-            width: 80px;
-            height: 80px;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+        .cta {
+            background: linear-gradient(to right, #16a34a, #14532d);
             color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 32px;
-            font-weight: 800;
-            margin: 0 auto 25px;
-            box-shadow: 0 8px 20px rgba(22, 163, 74, 0.3);
-        }
-
-        .step-card h4 {
-            font-size: 22px;
-            font-weight: 700;
-            margin-bottom: 15px;
-        }
-
-        .step-card p {
-            color: #64748b;
-            font-size: 14px;
-            line-height: 1.6;
-        }
-
-        .info-section {
-            background: white;
             border-radius: 30px;
-            padding: 50px;
-            margin-top: 60px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-        }
-
-        .info-icon {
-            width: 60px;
-            height: 60px;
-            background: var(--light);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 28px;
-            color: var(--primary);
+            padding: 70px;
+            text-align: center;
         }
 
         footer {
             background: #111827;
             color: white;
             padding: 70px 0 20px;
-            margin-top: 60px;
         }
 
         .footer-title {
@@ -179,7 +258,6 @@
 
         .footer-links a:hover {
             color: #4ade80;
-            transform: translateX(5px);
         }
 
         .social-icons a {
@@ -198,7 +276,6 @@
 
         .social-icons a:hover {
             background: var(--primary);
-            transform: translateY(-3px);
         }
 
         .copyright {
@@ -209,23 +286,22 @@
             color: #9ca3af;
         }
 
-        @media (max-width: 768px) {
-            .page-header h1 {
-                font-size: 32px;
+        @media(max-width:991px) {
+            .hero {
+                text-align: center;
+                padding: 100px 0;
             }
 
-            .step-card {
-                padding: 25px 20px;
+            .hero h1 {
+                font-size: 42px;
             }
 
-            .step-number {
-                width: 60px;
-                height: 60px;
-                font-size: 24px;
+            .cta {
+                padding: 40px 20px;
             }
 
-            .info-section {
-                padding: 30px 20px;
+            .cta h2 {
+                font-size: 30px;
             }
         }
     </style>
@@ -242,12 +318,13 @@
             </button>
             <div class="collapse navbar-collapse" id="navMenu">
                 <ul class="navbar-nav ms-auto align-items-lg-center">
-                    <li class="nav-item"><a class="nav-link" href="index.php">Home</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="index.php">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="about.php">About</a></li>
                     <li class="nav-item"><a class="nav-link" href="services.php">Services</a></li>
                     <li class="nav-item"><a class="nav-link" href="ngos.php">NGOs</a></li>
                     <li class="nav-item"><a class="nav-link" href="stories.php">Stories</a></li>
                     <li class="nav-item"><a class="nav-link" href="nearby.php">Nearby</a></li>
+                    <li class="nav-item"><a class="nav-link" href="how-it-works.php">How It Works</a></li>
                     <li class="nav-item"><a class="nav-link" href="contact.php">Contact</a></li>
                     <li class="nav-item"><a class="nav-link" href="faq.php">FAQs</a></li>
                     <li class="nav-item"><a class="nav-link" href="donate.php">Donate Now</a></li>
@@ -256,73 +333,154 @@
         </div>
     </nav>
 
-    <!-- Page Header -->
-    <div class="page-header">
+    <!-- Hero Section -->
+    <section class="hero" id="home">
         <div class="container">
-            <h1>How It Works</h1>
-            <p class="lead">Just 4 simple steps to make a difference in someone's life</p>
-        </div>
-    </div>
-
-    <!-- Steps Section -->
-    <section class="py-5">
-        <div class="container">
-            <div class="row g-4">
-                <div class="col-lg-3 col-md-6">
-                    <div class="step-card">
-                        <div class="step-number">1</div>
-                        <h4>Create Account</h4>
-                        <p class="text-muted">Sign up as a donor (restaurant, hotel, caterer) or as an NGO. Complete verification with your documents.</p>
-                        <small class="text-success"><i class="bi bi-clock"></i> Takes 2 minutes</small>
+            <div class="row align-items-center">
+                <div class="col-lg-7">
+                    <h1>Reduce Food Waste <br> Help Needy People</h1>
+                    <p>Sayog is a smart food donation and redistribution platform connecting restaurants, hotels, NGOs, and individuals with people who truly need support.</p>
+                    <div class="hero-btns">
+                        <a href="donate.php" class="btn-light-custom">Start Donating</a>
+                        <!-- Explore More button now goes to How It Works page -->
+                        <a href="how-it-works.php" class="btn-outline-custom">Explore More</a>
                     </div>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                    <div class="step-card">
-                        <div class="step-number">2</div>
-                        <h4>Post Donation</h4>
-                        <p class="text-muted">List available food items with quantity, expiry time, and pickup location. Add photos for transparency.</p>
-                        <small class="text-success"><i class="bi bi-camera"></i> Add photos</small>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                    <div class="step-card">
-                        <div class="step-number">3</div>
-                        <h4>Instant Match</h4>
-                        <p class="text-muted">Our AI system matches your donation with the nearest verified NGO. They accept and schedule pickup.</p>
-                        <small class="text-success"><i class="bi bi-geo-alt"></i> Nearest match</small>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                    <div class="step-card">
-                        <div class="step-number">4</div>
-                        <h4>Track Impact</h4>
-                        <p class="text-muted">Receive real-time updates, photos of delivery, and monthly impact reports showing lives you've touched.</p>
-                        <small class="text-success"><i class="bi bi-heart"></i> See impact</small>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Additional Info Section -->
-            <div class="info-section">
-                <div class="row align-items-center">
-                    <div class="col-md-8">
-                        <h3 class="mb-3">Ready to make a difference?</h3>
-                        <p class="text-muted mb-0">Join thousands of donors and NGOs who are already using Sayog to reduce food waste and feed those in need. Every meal shared brings hope to someone.</p>
-                    </div>
-                    <div class="col-md-4 text-center text-md-end mt-3 mt-md-0">
-                        <a href="donate.php" class="btn-main">Get Started Now <i class="bi bi-arrow-right"></i></a>
+                    <div class="mt-5 d-flex gap-4">
+                        <div><strong class="fs-2">5000+</strong><br><span>Meals Saved</span></div>
+                        <div><strong class="fs-2">200+</strong><br><span>NGO Partners</span></div>
+                        <div><strong class="fs-2">10000+</strong><br><span>Lives Impacted</span></div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Video Section (Optional) -->
-    <section class="py-5 bg-light">
-        <div class="container text-center">
-            <h3 class="mb-4">Watch How Sayog Works</h3>
-            <div class="ratio ratio-16x9" style="max-width: 800px; margin: 0 auto; border-radius: 20px; overflow: hidden;">
-                <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=0" title="How Sayog Works" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    <!-- Features / About Section -->
+    <section id="about">
+        <div class="container">
+            <div class="section-title">
+                <h2>Why Choose Sayog?</h2>
+                <p>Smart technology for impactful food donation and redistribution.</p>
+            </div>
+            <div class="row g-4">
+                <div class="col-lg-4">
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="bi bi-geo-alt"></i></div>
+                        <h4>Location Based Matching</h4>
+                        <p>Find nearby NGO and consumers instantly using GPS and Google Maps integration.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="bi bi-bell"></i></div>
+                        <h4>Real-Time Notifications</h4>
+                        <p>Receive instant donation alerts, request updates, and delivery tracking notifications.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="bi bi-shield-check"></i></div>
+                        <h4>Secure Verification</h4>
+                        <p>OTP verification, admin approval, and secure authentication ensure platform trust.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Recent Donations Section -->
+    <section class="bg-light" id="donations">
+        <div class="container">
+            <div class="section-title">
+                <h2>Recent Donations</h2>
+                <p>Explore latest food donations available nearby.</p>
+            </div>
+            <div class="row g-4">
+                <div class="col-lg-4">
+                    <div class="donation-card">
+                        <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=500&auto=format">
+                        <div class="donation-content">
+                            <span class="badge-custom">Food Donation</span>
+                            <h4 class="mt-3">Fresh Meal Package</h4>
+                            <p class="text-muted">Donated by Hotel Everest • Kathmandu</p>
+                            <div class="d-flex justify-content-between align-items-center mt-4">
+                                <span><i class="bi bi-geo-alt-fill text-success"></i> 2 KM Away</span>
+                                <a href="#" class="btn btn-main btn-sm">Request</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="donation-card">
+                        <img src="https://images.unsplash.com/photo-1547592180-85f173990554?q=80&w=500&auto=format">
+                        <div class="donation-content">
+                            <span class="badge-custom">NGO Support</span>
+                            <h4 class="mt-3">Rice & Vegetables</h4>
+                            <p class="text-muted">Donated by FoodCare NGO</p>
+                            <div class="d-flex justify-content-between align-items-center mt-4">
+                                <span><i class="bi bi-geo-alt-fill text-success"></i> 5 KM Away</span>
+                                <a href="#" class="btn btn-main btn-sm">Request</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="donation-card">
+                        <img src="https://images.unsplash.com/photo-1511690743698-d9d85f2fbf38?q=80&w=500&auto=format">
+                        <div class="donation-content">
+                            <span class="badge-custom">Restaurant Donation</span>
+                            <h4 class="mt-3">Packed Healthy Food</h4>
+                            <p class="text-muted">Donated by Green Cafe</p>
+                            <div class="d-flex justify-content-between align-items-center mt-4">
+                                <span><i class="bi bi-geo-alt-fill text-success"></i> 3 KM Away</span>
+                                <a href="#" class="btn btn-main btn-sm">Request</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats" id="ngos">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="stat-box">
+                        <h2>5K+</h2>
+                        <p>Food Donations</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="stat-box">
+                        <h2>2K+</h2>
+                        <p>Families Helped</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="stat-box">
+                        <h2>150+</h2>
+                        <p>NGO Partners</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="stat-box">
+                        <h2>100%</h2>
+                        <p>Verified Donations</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section id="contact">
+        <div class="container">
+            <div class="cta">
+                <h2>Join The Movement Against Food Waste</h2>
+                <p>Together we can reduce hunger and create a better future.</p>
+                <a href="donate.php" class="btn-light-custom mt-4 d-inline-block">Become a Donor</a>
             </div>
         </div>
     </section>
@@ -333,7 +491,7 @@
             <div class="row">
                 <div class="col-lg-4 mb-4">
                     <div class="footer-title">Sayog</div>
-                    <p class="text-light">Smart food donation platform connecting kindness with need.</p>
+                    <p class="text-light">Smart food donation and redistribution platform connecting kindness with need.</p>
                     <div class="social-icons mt-4">
                         <a href="#"><i class="bi bi-facebook"></i></a>
                         <a href="#"><i class="bi bi-instagram"></i></a>
@@ -361,9 +519,9 @@
                 </div>
                 <div class="col-lg-3 mb-4">
                     <div class="footer-title">Contact</div>
-                    <p><i class="bi bi-envelope"></i> support@sayog.com</p>
-                    <p><i class="bi bi-telephone"></i> +977 9800000000</p>
-                    <p><i class="bi bi-geo-alt"></i> Kathmandu, Nepal</p>
+                    <p>Email: support@sayog.com</p>
+                    <p>Phone: +977 9800000000</p>
+                    <p>Kathmandu, Nepal</p>
                 </div>
             </div>
             <div class="copyright">© 2026 Sayog. All Rights Reserved.</div>
