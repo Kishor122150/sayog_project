@@ -1,3 +1,6 @@
+<?php
+// index.php - Home Page
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -60,26 +63,6 @@
             color: var(--primary) !important;
         }
 
-        /* Donate Now button in navbar */
-        .btn-donate-nav {
-            background: linear-gradient(135deg, #16a34a, #14532d);
-            color: white !important;
-            padding: 8px 22px;
-            border-radius: 40px;
-            font-weight: 600;
-            margin-left: 15px;
-            transition: 0.3s;
-            border: none;
-            text-decoration: none;
-            display: inline-block;
-        }
-
-        .btn-donate-nav:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(22, 163, 74, 0.4);
-            color: white !important;
-        }
-
         .btn-main {
             background: var(--primary);
             color: #fff;
@@ -88,33 +71,11 @@
             border: none;
             font-weight: 600;
             transition: 0.3s;
-            text-decoration: none;
-            display: inline-block;
         }
 
         .btn-main:hover {
             background: var(--primary-dark);
             transform: translateY(-2px);
-            color: white;
-        }
-
-        .btn-sm-request {
-            background: var(--primary);
-            color: white;
-            padding: 6px 18px;
-            border-radius: 8px;
-            font-weight: 600;
-            font-size: 13px;
-            transition: 0.3s;
-            text-decoration: none;
-            display: inline-block;
-            border: none;
-        }
-
-        .btn-sm-request:hover {
-            background: var(--primary-dark);
-            transform: translateY(-2px);
-            color: white;
         }
 
         .hero {
@@ -149,7 +110,6 @@
             text-decoration: none;
             margin-right: 10px;
             transition: 0.3s;
-            display: inline-block;
         }
 
         .btn-light-custom:hover {
@@ -165,7 +125,6 @@
             text-decoration: none;
             font-weight: 600;
             transition: 0.3s;
-            display: inline-block;
         }
 
         .btn-outline-custom:hover {
@@ -219,16 +178,12 @@
             margin-bottom: 25px;
         }
 
-        /* ========== DONATION CARDS FIX - EQUAL HEIGHT ========== */
         .donation-card {
             background: white;
             border-radius: 20px;
             overflow: hidden;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
             transition: 0.3s;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
         }
 
         .donation-card:hover {
@@ -237,74 +192,21 @@
 
         .donation-card img {
             width: 100%;
-            height: 220px;
+            height: 240px;
             object-fit: cover;
         }
 
         .donation-content {
-            padding: 20px;
-            flex: 1;
-            display: flex;
-            flex-direction: column;
+            padding: 25px;
         }
 
         .badge-custom {
             background: #dcfce7;
             color: var(--primary);
-            padding: 6px 12px;
+            padding: 8px 15px;
             border-radius: 30px;
-            font-size: 12px;
+            font-size: 13px;
             font-weight: 600;
-            display: inline-block;
-            width: fit-content;
-        }
-
-        .donation-title {
-            font-size: 1.2rem;
-            font-weight: 700;
-            margin-top: 12px;
-            margin-bottom: 5px;
-            color: var(--dark);
-        }
-
-        .donation-meta {
-            color: #6c757d;
-            font-size: 0.8rem;
-            margin-bottom: 15px;
-        }
-
-        /* This is the key fix - pushes the footer to bottom */
-        .donation-footer {
-            margin-top: auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding-top: 15px;
-            border-top: 1px solid #e9ecef;
-            margin-top: 15px;
-        }
-
-        .donation-location {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            font-size: 0.8rem;
-            color: #6c757d;
-        }
-
-        .donation-location i {
-            color: var(--primary);
-        }
-
-        /* Row equal height fix */
-        .row-cards {
-            display: flex;
-            flex-wrap: wrap;
-        }
-
-        .row-cards [class*="col-"] {
-            display: flex;
-            flex-direction: column;
         }
 
         .stats {
@@ -401,27 +303,13 @@
             .cta h2 {
                 font-size: 30px;
             }
-
-            .btn-donate-nav {
-                margin: 10px 0;
-                display: inline-block;
-                text-align: center;
-            }
-        }
-
-        @media(max-width:768px) {
-            .donation-footer {
-                flex-direction: column;
-                gap: 12px;
-                align-items: flex-start;
-            }
         }
     </style>
 </head>
 
 <body>
 
-    <!-- Navbar with Donate Now Button -->
+    <!-- Navbar -->
     <nav class="navbar navbar-expand-lg sticky-top">
         <div class="container">
             <a class="navbar-brand" href="index.php">Say<span>og</span></a>
@@ -436,19 +324,15 @@
                     <li class="nav-item"><a class="nav-link" href="ngos.php">NGOs</a></li>
                     <li class="nav-item"><a class="nav-link" href="stories.php">Stories</a></li>
                     <li class="nav-item"><a class="nav-link" href="nearby.php">Nearby</a></li>
+                    <li class="nav-item"><a class="nav-link" href="how-it-works.php">How It Works</a></li>
                     <li class="nav-item"><a class="nav-link" href="contact.php">Contact</a></li>
                     <li class="nav-item"><a class="nav-link" href="faq.php">FAQs</a></li>
-                    <li class="nav-item">
-                        <a class="btn-donate-nav" href="login.php?redirect=donate.php">
-                            <i class="bi bi-heart-fill"></i> Donate Now
-                        </a>
-                    </li>
+                    <li class="nav-item"><a class="nav-link" href="donate.php">Donate Now</a></li>
                 </ul>
             </div>
         </div>
     </nav>
 
-    <!-- Hero Section -->
     <!-- Hero Section -->
     <section class="hero" id="home">
         <div class="container">
@@ -457,9 +341,9 @@
                     <h1>Reduce Food Waste <br> Help Needy People</h1>
                     <p>Sayog is a smart food donation and redistribution platform connecting restaurants, hotels, NGOs, and individuals with people who truly need support.</p>
                     <div class="hero-btns">
-                        <a href="login.php?redirect=donate.php" class="btn-light-custom">Start Donating</a>
-                        <!-- FIXED: Now goes to How It Works page -->
-                        <a href="./how-it-works.php" class="btn-outline-custom">Explore More</a>
+                        <a href="donate.php" class="btn-light-custom">Start Donating</a>
+                        <!-- Explore More button now goes to How It Works page -->
+                        <a href="how-it-works.php" class="btn-outline-custom">Explore More</a>
                     </div>
                     <div class="mt-5 d-flex gap-4">
                         <div><strong class="fs-2">5000+</strong><br><span>Meals Saved</span></div>
@@ -504,69 +388,56 @@
         </div>
     </section>
 
-    <!-- Recent Donations Section - EQUAL CARDS FIXED -->
+    <!-- Recent Donations Section -->
     <section class="bg-light" id="donations">
         <div class="container">
             <div class="section-title">
                 <h2>Recent Donations</h2>
                 <p>Explore latest food donations available nearby.</p>
             </div>
-            <div class="row g-4 row-cards">
-
-                <!-- Card 1 -->
-                <div class="col-lg-4 col-md-6">
+            <div class="row g-4">
+                <div class="col-lg-4">
                     <div class="donation-card">
-                        <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=500&auto=format" alt="Fresh Meal Package">
+                        <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=500&auto=format">
                         <div class="donation-content">
                             <span class="badge-custom">Food Donation</span>
-                            <h4 class="donation-title">Fresh Meal Package</h4>
-                            <p class="donation-meta">Donated by Hotel Everest • Kathmandu</p>
-                            <div class="donation-footer">
-                                <span class="donation-location">
-                                    <i class="bi bi-geo-alt-fill"></i> 2 KM Away
-                                </span>
-                                <a href="login.php?redirect=donate.php" class="btn-sm-request">Request</a>
+                            <h4 class="mt-3">Fresh Meal Package</h4>
+                            <p class="text-muted">Donated by Hotel Everest • Kathmandu</p>
+                            <div class="d-flex justify-content-between align-items-center mt-4">
+                                <span><i class="bi bi-geo-alt-fill text-success"></i> 2 KM Away</span>
+                                <a href="#" class="btn btn-main btn-sm">Request</a>
                             </div>
                         </div>
                     </div>
                 </div>
-
-                <!-- Card 2 -->
-                <div class="col-lg-4 col-md-6">
+                <div class="col-lg-4">
                     <div class="donation-card">
-                        <img src="https://images.unsplash.com/photo-1547592180-85f173990554?q=80&w=500&auto=format" alt="Rice & Vegetables">
+                        <img src="https://images.unsplash.com/photo-1547592180-85f173990554?q=80&w=500&auto=format">
                         <div class="donation-content">
                             <span class="badge-custom">NGO Support</span>
-                            <h4 class="donation-title">Rice & Vegetables</h4>
-                            <p class="donation-meta">Donated by FoodCare NGO • Lalitpur</p>
-                            <div class="donation-footer">
-                                <span class="donation-location">
-                                    <i class="bi bi-geo-alt-fill"></i> 5 KM Away
-                                </span>
-                                <a href="login.php?redirect=donate.php" class="btn-sm-request">Request</a>
+                            <h4 class="mt-3">Rice & Vegetables</h4>
+                            <p class="text-muted">Donated by FoodCare NGO</p>
+                            <div class="d-flex justify-content-between align-items-center mt-4">
+                                <span><i class="bi bi-geo-alt-fill text-success"></i> 5 KM Away</span>
+                                <a href="#" class="btn btn-main btn-sm">Request</a>
                             </div>
                         </div>
                     </div>
                 </div>
-
-                <!-- Card 3 -->
-                <div class="col-lg-4 col-md-6">
+                <div class="col-lg-4">
                     <div class="donation-card">
-                        <img src="https://images.unsplash.com/photo-1511690743698-d9d85f2fbf38?q=80&w=500&auto=format" alt="Packed Healthy Food">
+                        <img src="https://images.unsplash.com/photo-1511690743698-d9d85f2fbf38?q=80&w=500&auto=format">
                         <div class="donation-content">
                             <span class="badge-custom">Restaurant Donation</span>
-                            <h4 class="donation-title">Packed Healthy Food</h4>
-                            <p class="donation-meta">Donated by Green Cafe • Bhaktapur</p>
-                            <div class="donation-footer">
-                                <span class="donation-location">
-                                    <i class="bi bi-geo-alt-fill"></i> 3 KM Away
-                                </span>
-                                <a href="login.php?redirect=donate.php" class="btn-sm-request">Request</a>
+                            <h4 class="mt-3">Packed Healthy Food</h4>
+                            <p class="text-muted">Donated by Green Cafe</p>
+                            <div class="d-flex justify-content-between align-items-center mt-4">
+                                <span><i class="bi bi-geo-alt-fill text-success"></i> 3 KM Away</span>
+                                <a href="#" class="btn btn-main btn-sm">Request</a>
                             </div>
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
     </section>
@@ -609,7 +480,7 @@
             <div class="cta">
                 <h2>Join The Movement Against Food Waste</h2>
                 <p>Together we can reduce hunger and create a better future.</p>
-                <a href="login.php?redirect=donate.php" class="btn-light-custom mt-4 d-inline-block">Become a Donor</a>
+                <a href="donate.php" class="btn-light-custom mt-4 d-inline-block">Become a Donor</a>
             </div>
         </div>
     </section>
@@ -640,10 +511,10 @@
                 <div class="col-lg-3 col-md-6 mb-4">
                     <div class="footer-title">Services</div>
                     <div class="footer-links">
-                        <a href="login.php?redirect=donate.php">Food Donation</a>
+                        <a href="donate.php">Food Donation</a>
                         <a href="ngos.php">NGO Support</a>
-                        <a href="login.php?redirect=donate.php">Emergency Help</a>
-                        <a href="login.php?redirect=donate.php">Volunteer Program</a>
+                        <a href="#">Emergency Help</a>
+                        <a href="#">Volunteer Program</a>
                     </div>
                 </div>
                 <div class="col-lg-3 mb-4">
