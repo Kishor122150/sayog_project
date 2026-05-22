@@ -172,7 +172,11 @@
                     <li class="nav-item"><a class="nav-link" href="how-it-works.php">How It Works</a></li>
                     <li class="nav-item"><a class="nav-link" href="contact.php">Contact</a></li>
                     <li class="nav-item"><a class="nav-link" href="faq.php">FAQs</a></li>
-                    <li class="nav-item"><a class="nav-link" href="donate.php">Donate Now</a></li>
+                    <li class="nav-item">
+                        <a class="btn-donate-nav" href="./auth/login.php">
+                            <i class="bi bi-heart-fill"></i> Donate Now
+                        </a>
+                    </li>
                 </ul>
             </div>
         </div>

@@ -135,12 +135,102 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             overflow: hidden;
             box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.15);
             transition: all 0.3s ease;
+            position: relative;
         }
 
         /* Larger screens */
         @media (min-width: 768px) {
             .glass-card {
                 max-width: 1100px;
+            }
+        }
+
+        /* BACK TO HOME BUTTON */
+        .back-home-btn {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            z-index: 10;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            border-radius: 2rem;
+            padding: 0.5rem 1.2rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #15803d;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            font-family: 'Inter', sans-serif;
+        }
+
+        .back-home-btn i {
+            font-size: 0.85rem;
+            transition: transform 0.2s ease;
+        }
+
+        .back-home-btn:hover {
+            background: white;
+            border-color: #15803d;
+            box-shadow: 0 4px 12px rgba(34, 197, 94, 0.15);
+            transform: translateX(-2px);
+        }
+
+        .back-home-btn:hover i {
+            transform: translateX(-3px);
+        }
+
+        @media (max-width: 640px) {
+            .back-home-btn {
+                padding: 0.4rem 1rem;
+                font-size: 0.7rem;
+                top: 0.75rem;
+                left: 0.75rem;
+            }
+
+            .back-home-btn span {
+                display: inline;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .back-home-btn span {
+                display: none;
+            }
+
+            .back-home-btn {
+                padding: 0.5rem;
+                border-radius: 2rem;
+            }
+
+            .back-home-btn i {
+                margin: 0;
+                font-size: 1rem;
+            }
+        }
+
+        /* 🔥 HIDE LEFT BRAND COLUMN ON MOBILE 🔥 */
+        @media (max-width: 767px) {
+            .col-brand {
+                display: none !important;
+            }
+
+            .glass-card {
+                max-width: 100%;
+                border-radius: 1.2rem;
+            }
+
+            .col-form {
+                width: 100%;
+                flex: none !important;
+            }
+
+            .form-side {
+                padding: 1.5rem;
             }
         }
 
@@ -629,22 +719,41 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             .form-side {
                 padding: 1.2rem;
             }
+        }
 
-            .brand-side {
+        @media (max-width: 767px) {
+            .glass-card {
+                border-radius: 1.2rem;
+            }
+
+            .form-side {
                 padding: 1.2rem;
             }
 
-            .brand-side h3 {
-                font-size: 1.2rem;
+            .modern-tabs {
+                margin-bottom: 1.2rem;
             }
 
-            .trust-features {
-                grid-template-columns: 1fr;
-                gap: 0.5rem;
+            .tab-item {
+                padding: 0.5rem 0;
+                font-size: 0.8rem;
             }
 
-            .feature-chip {
-                padding: 0.4rem 0.7rem;
+            .role-card {
+                padding: 0.5rem 0.3rem;
+            }
+
+            .role-card i {
+                font-size: 1.1rem;
+            }
+
+            .role-card .role-name {
+                font-size: 0.65rem;
+            }
+
+            .btn-primary-glow {
+                padding: 0.7rem;
+                font-size: 0.85rem;
             }
         }
 
@@ -657,14 +766,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
     <div class="auth-wrapper">
         <div class="glass-card">
+            <!-- BACK TO HOME BUTTON -->
+            <a href="../index.php" class="back-home-btn">
+                <i class="fas fa-arrow-left"></i>
+                <span>Back to Home</span>
+            </a>
+
             <div class="row">
-                <!-- left brand area -->
+                <!-- left brand area - HIDDEN ON MOBILE -->
                 <div class="col-brand">
                     <div class="brand-side">
                         <div class="food-image-container">
                             <img src="https://images.unsplash.com/photo-1488459716781-31db52582fe9?q=80&w=600&auto=format" alt="Food donation" onerror="this.onerror=null; this.src='https://placehold.co/600x400/e2f0e2/2d6a4f?text=Food+Donation';">
                         </div>
-
                         <div class="brand-logo">
                             <i class="fas fa-hand-holding-heart"></i> Say<span style="color:#bef264;">og</span>
                         </div>
@@ -672,7 +786,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <p class="brand-description">
                             Join a community where every meal shared brings hope to those in need.
                         </p>
-
                         <div class="trust-features">
                             <div class="feature-chip">
                                 <i class="fas fa-shield-alt"></i>
@@ -701,7 +814,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <div class="col-form">
                     <div class="form-side">
 
-                        <!-- dynamic alert -->
                         <?php if ($message !== ''): ?>
                             <div class="custom-alert alert-<?php echo htmlspecialchars($messageType); ?>">
                                 <i class="fas <?php echo $messageType === 'success' ? 'fa-check-circle' : ($messageType === 'danger' ? 'fa-exclamation-triangle' : 'fa-info-circle'); ?>"></i>
@@ -709,7 +821,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             </div>
                         <?php endif; ?>
 
-                        <!-- modern tab navigation -->
                         <div class="modern-tabs">
                             <button class="tab-item <?php echo $activeForm === 'loginForm' ? 'active' : ''; ?>" data-target="loginForm">
                                 <i class="fas fa-arrow-right-to-bracket"></i> <span class="tab-text">Login</span>
@@ -719,16 +830,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             </button>
                         </div>
 
-                        <!-- LOGIN FORM (Email + Password + Role only) -->
+                        <!-- LOGIN FORM -->
                         <div class="auth-panel <?php echo $activeForm === 'loginForm' ? 'active' : ''; ?>" id="loginForm">
                             <form method="POST" action="">
                                 <input type="hidden" name="action" value="login">
-
                                 <div class="input-wrapper">
                                     <i class="fas fa-envelope input-icon-left"></i>
                                     <input type="email" name="email" placeholder="Email address" required autocomplete="email">
                                 </div>
-
                                 <div class="input-wrapper">
                                     <i class="fas fa-lock input-icon-left"></i>
                                     <input type="password" name="password" id="loginPassword" placeholder="Password" required>
@@ -736,8 +845,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                         <i class="far fa-eye-slash"></i>
                                     </button>
                                 </div>
-
-                                <!-- Role Selector for Login -->
                                 <div class="role-selector">
                                     <label class="role-label"><i class="fas fa-user-tag"></i> Login as</label>
                                     <div class="role-options">
@@ -767,7 +874,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                         </label>
                                     </div>
                                 </div>
-
                                 <button type="submit" class="btn-primary-glow">
                                     <i class="fas fa-paper-plane"></i> Sign in
                                 </button>
@@ -777,21 +883,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             </form>
                         </div>
 
-                        <!-- REGISTER FORM (Full Name, Email, Password, Confirm Password, Role) -->
+                        <!-- REGISTER FORM -->
                         <div class="auth-panel <?php echo $activeForm === 'registerForm' ? 'active' : ''; ?>" id="registerForm">
                             <form method="POST" action="">
                                 <input type="hidden" name="action" value="register">
-
                                 <div class="input-wrapper">
                                     <i class="fas fa-user-astronaut input-icon-left"></i>
                                     <input type="text" name="name" placeholder="Full name" required autocomplete="name">
                                 </div>
-
                                 <div class="input-wrapper">
                                     <i class="fas fa-envelope input-icon-left"></i>
                                     <input type="email" name="email" placeholder="Email address" required autocomplete="email">
                                 </div>
-
                                 <div class="input-wrapper">
                                     <i class="fas fa-key input-icon-left"></i>
                                     <input type="password" name="password" id="regPassword" placeholder="Create password" required>
@@ -799,7 +902,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                         <i class="far fa-eye-slash"></i>
                                     </button>
                                 </div>
-
                                 <div class="input-wrapper">
                                     <i class="fas fa-check-circle input-icon-left"></i>
                                     <input type="password" name="confirm_password" id="confirmPass" placeholder="Confirm password" required>
@@ -807,10 +909,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                         <i class="far fa-eye-slash"></i>
                                     </button>
                                 </div>
-
                                 <div id="passMatchHint" style="font-size: 0.7rem; margin-top: -0.5rem; margin-bottom: 0.5rem; padding-left: 0.5rem;"></div>
-
-                                <!-- Role Selector for Registration -->
                                 <div class="role-selector">
                                     <label class="role-label"><i class="fas fa-user-tag"></i> Register as</label>
                                     <div class="role-options">
@@ -840,7 +939,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                         </label>
                                     </div>
                                 </div>
-
                                 <button type="submit" class="btn-primary-glow">
                                     <i class="fas fa-hand-peace"></i> Register
                                 </button>
@@ -975,3 +1073,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 </html>
 ```
+
+##

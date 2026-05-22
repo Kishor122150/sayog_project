@@ -289,7 +289,7 @@
                     <li class="nav-item"><a class="nav-link" href="faq.php">FAQs</a></li>
                     <!-- DONATE NOW BUTTON - SAME AS INDEX -->
                     <li class="nav-item">
-                        <a class="btn-donate-nav" href="login.php?redirect=donate.php">
+                        <a class="btn-donate-nav" href="./auth/login.php">
                             <i class="bi bi-heart-fill"></i> Donate Now
                         </a>
                     </li>

@@ -439,7 +439,7 @@
                     <li class="nav-item"><a class="nav-link" href="contact.php">Contact</a></li>
                     <li class="nav-item"><a class="nav-link" href="faq.php">FAQs</a></li>
                     <li class="nav-item">
-                        <a class="btn-donate-nav" href="login.php?redirect=donate.php">
+                        <a class="btn-donate-nav" href="./auth/register.php">
                             <i class="bi bi-heart-fill"></i> Donate Now
                         </a>
                     </li>
@@ -457,7 +457,7 @@
                     <h1>Reduce Food Waste <br> Help Needy People</h1>
                     <p>Sayog is a smart food donation and redistribution platform connecting restaurants, hotels, NGOs, and individuals with people who truly need support.</p>
                     <div class="hero-btns">
-                        <a href="how-it-works.php" class="btn-light-custom">Start Donating</a>
+                        <a href="./auth/login.php" class="btn-light-custom">Start Donating</a>
                         <a href="how-it-works.php" class="btn-outline-custom">Explore More</a>
                     </div>
                     <div class="mt-5 d-flex gap-4">
@@ -524,7 +524,7 @@
                                 <span class="donation-location">
                                     <i class="bi bi-geo-alt-fill"></i> 2 KM Away
                                 </span>
-                                <a href="login.php?redirect=donate.php" class="btn-sm-request">Request</a>
+                                <a href="./auth/login.php" class="btn-sm-request">Request</a>
                             </div>
                         </div>
                     </div>
@@ -542,7 +542,7 @@
                                 <span class="donation-location">
                                     <i class="bi bi-geo-alt-fill"></i> 5 KM Away
                                 </span>
-                                <a href="login.php?redirect=donate.php" class="btn-sm-request">Request</a>
+                                <a href="./auth/login.php" class="btn-sm-request">Request</a>
                             </div>
                         </div>
                     </div>
@@ -560,7 +560,8 @@
                                 <span class="donation-location">
                                     <i class="bi bi-geo-alt-fill"></i> 3 KM Away
                                 </span>
-                                <a href="login.php?redirect=donate.php" class="btn-sm-request">Request</a>
+                                <!-- ✅ FIXED: Request button redirects to login page -->
+                                <a href="./auth/login.php" class="btn-sm-request">Request</a>
                             </div>
                         </div>
                     </div>
@@ -608,7 +609,7 @@
             <div class="cta">
                 <h2>Join The Movement Against Food Waste</h2>
                 <p>Together we can reduce hunger and create a better future.</p>
-                <a href="login.php?redirect=donate.php" class="btn-light-custom mt-4 d-inline-block">Become a Donor</a>
+                <a href="./auth/login.php" class="btn-light-custom mt-4 d-inline-block">Become a Donor</a>
             </div>
         </div>
     </section>
