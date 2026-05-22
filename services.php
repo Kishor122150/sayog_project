@@ -361,7 +361,7 @@
                     <li class="nav-item"><a class="nav-link" href="faq.php">FAQs</a></li>
                     <!-- DONATE NOW BUTTON - SAME AS INDEX -->
                     <li class="nav-item">
-                        <a class="btn-donate-nav" href="login.php?redirect=donate.php">
+                        <a class="btn-donate-nav" href="./auth/login.php">
                             <i class="bi bi-heart-fill"></i> Donate Now
                         </a>
                     </li>
@@ -481,7 +481,7 @@
                     </div>
                 </div>
                 <div class="text-center mt-4">
-                    <a href="login.php?redirect=donate.php" class="btn-main">Get Started Now</a>
+                    <a href="./auth/login.php" class="btn-main">Get Started Now</a>
                 </div>
             </div>
         </div>
@@ -504,7 +504,7 @@
                             <li><i class="bi bi-check-circle text-success"></i> Impact reports</li>
                             <li><i class="bi bi-check-circle text-success"></i> 24/7 support</li>
                         </ul>
-                        <a href="login.php?redirect=register.php" class="btn-outline-main mt-3">Register as Donor</a>
+                        <a href="./auth/register.php" class="btn-outline-main mt-3">Register as Donor</a>
                     </div>
                 </div>
                 <div class="col-md-4">
@@ -519,7 +519,7 @@
                             <li><i class="bi bi-check-circle text-success"></i> Free logistics support</li>
                             <li><i class="bi bi-check-circle text-success"></i> Dedicated account manager</li>
                         </ul>
-                        <a href="login.php?redirect=register.php" class="btn-main mt-3">Register as NGO</a>
+                        <a href="./auth/login.php" class="btn-main mt-3">Register as NGO</a>
                     </div>
                 </div>
                 <div class="col-md-4">
@@ -533,7 +533,7 @@
                             <li><i class="bi bi-check-circle text-success"></i> Community recognition</li>
                             <li><i class="bi bi-check-circle text-success"></i> Certificate of appreciation</li>
                         </ul>
-                        <a href="login.php?redirect=register.php" class="btn-outline-main mt-3">Become Volunteer</a>
+                        <a href="./auth/login.php" class="btn-outline-main mt-3">Become Volunteer</a>
                     </div>
                 </div>
             </div>

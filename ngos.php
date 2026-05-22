@@ -421,7 +421,7 @@
                     <li class="nav-item"><a class="nav-link" href="faq.php">FAQs</a></li>
                     <!-- DONATE NOW BUTTON - SAME AS INDEX -->
                     <li class="nav-item">
-                        <a class="btn-donate-nav" href="login.php?redirect=donate.php">
+                        <a class="btn-donate-nav" href="./auth/login.php">
                             <i class="bi bi-heart-fill"></i> Donate Now
                         </a>
                     </li>
@@ -677,7 +677,7 @@
             <div class="become-ngo-cta">
                 <h3><i class="bi bi-building-add"></i> Are you an NGO?</h3>
                 <p>Join our network of trusted partners and receive food donations easily.</p>
-                <a href="login.php?redirect=register.php" class="btn-outline-main" style="background: white; color: #1e293b; border-color: white;">
+                <a href="./auth/login.php" class="btn-outline-main" style="background: white; color: #1e293b; border-color: white;">
                     <i class="bi bi-pencil-square"></i> Register Your NGO
                 </a>
             </div>

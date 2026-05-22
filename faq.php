@@ -312,7 +312,7 @@
                     <li class="nav-item"><a class="nav-link active" href="faq.php">FAQs</a></li>
                     <!-- DONATE NOW BUTTON - SAME AS INDEX -->
                     <li class="nav-item">
-                        <a class="btn-donate-nav" href="login.php?redirect=donate.php">
+                        <a class="btn-donate-nav" href="./auth/login.php">
                             <i class="bi bi-heart-fill"></i> Donate Now
                         </a>
                     </li>
@@ -508,7 +508,7 @@
                 <a href="contact.php" class="btn-donate-nav" style="display: inline-block;">
                     <i class="bi bi-envelope"></i> Contact Support
                 </a>
-                <a href="mailto:support@sayog.com" class="btn-donate-nav" style="display: inline-block; background: transparent; border: 2px solid var(--primary); color: var(--primary); margin-left: 10px;">
+                <a href="mailto:support@sayog.com" class="btn-donate-nav" style="display: inline-block; border: 2px solid var(--primary); color: var(--primary); margin-left: 10px;">
                     <i class="bi bi-envelope-fill"></i> support@sayog.com
                 </a>
             </div>

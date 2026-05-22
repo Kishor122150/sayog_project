@@ -288,7 +288,7 @@
                     <li class="nav-item"><a class="nav-link" href="faq.php">FAQs</a></li>
                     <!-- DONATE NOW BUTTON - SAME AS INDEX -->
                     <li class="nav-item">
-                        <a class="btn-donate-nav" href="login.php?redirect=donate.php">
+                        <a class="btn-donate-nav" href="./auth/login.php">
                             <i class="bi bi-heart-fill"></i> Donate Now
                         </a>
                     </li>
@@ -334,7 +334,7 @@
                             </div>
                         </div>
                     </div>
-                    <a href="login.php?redirect=donate.php" class="btn-donate-nav mt-3" style="display: inline-block;">
+                    <a href="./auth/login.php" class="btn-donate-nav mt-3" style="display: inline-block;">
                         <i class="bi bi-gift-fill"></i> Join Our Mission
                     </a>
                 </div>
@@ -469,7 +469,7 @@
             <div class="cta" style="background: linear-gradient(135deg, #16a34a, #14532d); border-radius: 30px; padding: 60px; text-align: center; color: white;">
                 <h2>Ready to Make a Difference?</h2>
                 <p class="mb-4">Join thousands of donors who are helping reduce food waste and feed the needy.</p>
-                <a href="login.php?redirect=donate.php" class="btn-light-custom" style="background: white; color: #16a34a; padding: 12px 30px; border-radius: 40px; text-decoration: none; font-weight: 600;">
+                <a href="./auth/login.php" class="btn-light-custom" style="background: white; color: #16a34a; padding: 12px 30px; border-radius: 40px; text-decoration: none; font-weight: 600;">
                     <i class="bi bi-heart-fill"></i> Start Donating Today
                 </a>
             </div>
