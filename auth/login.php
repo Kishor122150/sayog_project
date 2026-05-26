@@ -1,55 +1,313 @@
 <?php
-// auth/login.php
-// Fully responsive login + register page with Role Selection (Donor, Consumer, Admin)
 
 session_start();
 
+require_once '../config/database.php';
+
+$database = new Database();
+$conn = $database->connect();
+
 $message = '';
 $messageType = 'info';
-$activeForm = 'loginForm'; // Default to login form
+$activeForm = 'loginForm';
+
+/*
+|--------------------------------------------------------------------------
+| REGISTER SYSTEM
+|--------------------------------------------------------------------------
+*/
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
     $action = $_POST['action'] ?? '';
 
-    if ($action === 'login') {
-        $email = trim((string)($_POST['email'] ?? ''));
-        $password = (string)($_POST['password'] ?? '');
-        $role = $_POST['role'] ?? '';
-
-        if ($email === '' || $password === '' || $role === '') {
-            $message = 'Please enter email, password and select role.';
-            $messageType = 'danger';
-        } else {
-            $message = 'Login submitted as ' . htmlspecialchars($role) . ' (layout only – no authentication yet).';
-            $messageType = 'success';
-        }
-        $activeForm = 'loginForm';
-    }
+    /*
+    |--------------------------------------------------------------------------
+    | REGISTER
+    |--------------------------------------------------------------------------
+    */
 
     if ($action === 'register') {
-        $name = trim((string)($_POST['name'] ?? ''));
-        $email = trim((string)($_POST['email'] ?? ''));
-        $password = (string)($_POST['password'] ?? '');
-        $confirm = (string)($_POST['confirm_password'] ?? '');
-        $role = $_POST['role'] ?? '';
 
-        if ($name === '' || $email === '' || $password === '' || $confirm === '' || $role === '') {
-            $message = 'Please fill all register fields including role selection.';
-            $messageType = 'danger';
-            $activeForm = 'registerForm';
+        $name = trim($_POST['name'] ?? '');
+        $email = trim($_POST['email'] ?? '');
+        $password = trim($_POST['password'] ?? '');
+        $confirm = trim($_POST['confirm_password'] ?? '');
+        $role = trim($_POST['role'] ?? '');
+
+        $activeForm = 'registerForm';
+
+        // Validation
+
+        if (
+            empty($name) ||
+            empty($email) ||
+            empty($password) ||
+            empty($confirm) ||
+            empty($role)
+        ) {
+
+            $message = "All fields are required.";
+            $messageType = "danger";
+
+        } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+
+            $message = "Invalid email format.";
+            $messageType = "danger";
+
         } elseif ($password !== $confirm) {
-            $message = 'Password and confirm password do not match.';
-            $messageType = 'danger';
-            $activeForm = 'registerForm';
+
+            $message = "Passwords do not match.";
+            $messageType = "danger";
+
+        } elseif (strlen($password) < 6) {
+
+            $message = "Password must be at least 6 characters.";
+            $messageType = "danger";
+
         } else {
-            $message = 'Registration successful! Please login with your credentials.';
-            $messageType = 'success';
-            // After successful registration, switch to login form
-            $activeForm = 'loginForm';
+
+            // Check existing email
+
+            $checkQuery = "SELECT id FROM users WHERE email = :email LIMIT 1";
+
+            $checkStmt = $conn->prepare($checkQuery);
+
+            $checkStmt->bindParam(':email', $email);
+
+            $checkStmt->execute();
+
+            if ($checkStmt->rowCount() > 0) {
+
+                $message = "Email already registered.";
+                $messageType = "danger";
+
+            } else {
+
+                // Hash Password
+
+                $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
+
+                // Insert User
+
+                $insertQuery = "
+                    INSERT INTO users
+                    (
+                        role,
+                        full_name,
+                        email,
+                        password,
+                        email_verified,
+                        otp_verified,
+                        admin_approved,
+                        account_status
+                    )
+                    VALUES
+                    (
+                        :role,
+                        :full_name,
+                        :email,
+                        :password,
+                        1,
+                        1,
+                        1,
+                        'active'
+                    )
+                ";
+
+                $insertStmt = $conn->prepare($insertQuery);
+
+                $insertStmt->bindParam(':role', $role);
+                $insertStmt->bindParam(':full_name', $name);
+                $insertStmt->bindParam(':email', $email);
+                $insertStmt->bindParam(':password', $hashedPassword);
+
+                if ($insertStmt->execute()) {
+
+                    $userId = $conn->lastInsertId();
+
+                    /*
+                    |--------------------------------------------------------------------------
+                    | CREATE DONOR PROFILE
+                    |--------------------------------------------------------------------------
+                    */
+
+                    if ($role === 'donor') {
+
+                        $donorQuery = "
+                            INSERT INTO donor_profiles
+                            (
+                                user_id,
+                                donor_type
+                            )
+                            VALUES
+                            (
+                                :user_id,
+                                'individual'
+                            )
+                        ";
+
+                        $donorStmt = $conn->prepare($donorQuery);
+
+                        $donorStmt->bindParam(':user_id', $userId);
+
+                        $donorStmt->execute();
+                    }
+
+                    /*
+                    |--------------------------------------------------------------------------
+                    | CREATE CONSUMER PROFILE
+                    |--------------------------------------------------------------------------
+                    */
+
+                    if ($role === 'consumer') {
+
+                        $consumerQuery = "
+                            INSERT INTO consumer_profiles
+                            (
+                                user_id,
+                                consumer_type
+                            )
+                            VALUES
+                            (
+                                :user_id,
+                                'poor_individual'
+                            )
+                        ";
+
+                        $consumerStmt = $conn->prepare($consumerQuery);
+
+                        $consumerStmt->bindParam(':user_id', $userId);
+
+                        $consumerStmt->execute();
+                    }
+
+                    $message = "Registration successful! Please login.";
+                    $messageType = "success";
+
+                    $activeForm = 'loginForm';
+
+                } else {
+
+                    $message = "Registration failed.";
+                    $messageType = "danger";
+                }
+            }
+        }
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | LOGIN SYSTEM
+    |--------------------------------------------------------------------------
+    */
+
+    if ($action === 'login') {
+
+        $email = trim($_POST['email'] ?? '');
+        $password = trim($_POST['password'] ?? '');
+        $role = trim($_POST['role'] ?? '');
+
+        $activeForm = 'loginForm';
+
+        if (
+            empty($email) ||
+            empty($password) ||
+            empty($role)
+        ) {
+
+            $message = "Please fill all login fields.";
+            $messageType = "danger";
+
+        } else {
+
+            $loginQuery = "
+                SELECT *
+                FROM users
+                WHERE email = :email
+                AND role = :role
+                LIMIT 1
+            ";
+
+            $loginStmt = $conn->prepare($loginQuery);
+
+            $loginStmt->bindParam(':email', $email);
+            $loginStmt->bindParam(':role', $role);
+
+            $loginStmt->execute();
+
+            if ($loginStmt->rowCount() === 1) {
+
+                $user = $loginStmt->fetch(PDO::FETCH_ASSOC);
+
+                if (password_verify($password, $user['password'])) {
+
+                    /*
+                    |--------------------------------------------------------------------------
+                    | SESSION VARIABLES
+                    |--------------------------------------------------------------------------
+                    */
+
+                    session_regenerate_id(true);
+
+                    $_SESSION['user_id'] = $user['id'];
+                    $_SESSION['full_name'] = $user['full_name'];
+                    $_SESSION['email'] = $user['email'];
+                    $_SESSION['role'] = $user['role'];
+                    $_SESSION['logged_in'] = true;
+
+                    // Update Last Login
+
+                    $updateQuery = "
+                        UPDATE users
+                        SET last_login = NOW()
+                        WHERE id = :id
+                    ";
+
+                    $updateStmt = $conn->prepare($updateQuery);
+
+                    $updateStmt->bindParam(':id', $user['id']);
+
+                    $updateStmt->execute();
+
+                    /*
+                    |--------------------------------------------------------------------------
+                    | ROLE BASED REDIRECT
+                    |--------------------------------------------------------------------------
+                    */
+
+                    if ($user['role'] === 'donor') {
+
+                        header("Location: ../donor/dashboard.php");
+                        exit;
+                    }
+
+                    if ($user['role'] === 'consumer') {
+
+                        header("Location: ../consumer/dashboard.php");
+                        exit;
+                    }
+
+                    if ($user['role'] === 'admin') {
+
+                        header("Location: ../admin/dashboard.php");
+                        exit;
+                    }
+
+                } else {
+
+                    $message = "Invalid password.";
+                    $messageType = "danger";
+                }
+
+            } else {
+
+                $message = "Invalid email or role.";
+                $messageType = "danger";
+            }
         }
     }
 }
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -929,14 +1187,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                                 <div class="role-desc">NGO/Community/Individual</div>
                                             </div>
                                         </label>
-                                        <label class="role-option">
+                                        <!-- <label class="role-option">
                                             <input type="radio" name="role" value="admin">
                                             <div class="role-card">
                                                 <i class="fas fa-user-shield"></i>
                                                 <div class="role-name">Admin</div>
                                                 <div class="role-desc">Platform Manager</div>
                                             </div>
-                                        </label>
+                                        </label> -->
                                     </div>
                                 </div>
                                 <button type="submit" class="btn-primary-glow">
